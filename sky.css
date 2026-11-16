@@ -1,0 +1,1633 @@
+
+/* =========================================
+   MIDNIGHT MIRAGE — THE NIGHT SKY
+   PIXEL-ART MIDNIGHT ROOFTOP
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    --cream: #ffe5bd;
+    --pink: #f4b8d5;
+    --lavender: #c8b5ed;
+    --navy: #202447;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    background: #1b2148;
+    color: #fff0e9;
+    font-family: "DM Sans", sans-serif;
+}
+
+button {
+    font: inherit;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* =========================================
+   1. MAIN NIGHT WORLD
+   ========================================= */
+
+.sky-world {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 65px 24px 55px;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 78%,
+            rgba(236, 149, 191, .22),
+            transparent 55%
+        ),
+        linear-gradient(
+            180deg,
+            #171d43 0%,
+            #252d61 36%,
+            #4d487e 68%,
+            #96678e 100%
+        );
+}
+
+/* Atmospheric haze */
+
+.sky-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 17% 35%,
+            rgba(141, 139, 227, .12),
+            transparent 40%
+        ),
+        radial-gradient(
+            ellipse at 82% 60%,
+            rgba(245, 171, 203, .10),
+            transparent 40%
+        );
+}
+
+.horizon-glow {
+    position: absolute;
+    left: -15%;
+    right: -15%;
+    bottom: 8%;
+
+    height: 34%;
+    z-index: 1;
+    pointer-events: none;
+
+    background: radial-gradient(
+        ellipse at center,
+        rgba(255, 176, 190, .17),
+        transparent 70%
+    );
+
+    filter: blur(30px);
+}
+
+/* =========================================
+   2. MOON
+   ========================================= */
+
+.moon {
+    position: absolute;
+    top: 13%;
+    right: 10%;
+
+    width: 76px;
+    height: 76px;
+    z-index: 2;
+
+    border-radius: 50%;
+
+    box-shadow:
+        inset -16px 8px 0 2px #ffe5bc,
+        12px -6px 30px rgba(255, 222, 173, .12);
+
+    transform: rotate(-17deg);
+
+    pointer-events: none;
+
+    animation: moonFloat 8s ease-in-out infinite;
+}
+
+@keyframes moonFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-17deg);
+    }
+    50% {
+        transform: translateY(-7px) rotate(-17deg);
+    }
+}
+
+/* =========================================
+   3. HEADER
+   ========================================= */
+
+.sky-header {
+    position: relative;
+    z-index: 8;
+
+    width: 100%;
+    max-width: 800px;
+
+    text-align: center;
+    pointer-events: none;
+}
+
+.eyebrow {
+    margin: 0 0 15px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+
+    color: #f3bfd9;
+}
+
+.sky-header h1 {
+    margin: 0 0 16px;
+
+    font-family: "Berkshire Swash", Georgia, serif;
+    font-size: clamp(48px, 7vw, 90px);
+    font-weight: 400;
+
+    color: var(--cream);
+
+    text-shadow:
+        0 0 15px rgba(255, 219, 169, .24),
+        0 5px 20px rgba(20, 19, 58, .45);
+}
+
+.sky-intro {
+    margin: 0;
+
+    font-size: clamp(15px, 2vw, 19px);
+    line-height: 1.8;
+
+    color: #fce9ee;
+
+    text-shadow: 0 2px 9px rgba(18, 20, 55, .65);
+}
+
+.sky-hint {
+    margin: 25px 0 0;
+
+    font-size: clamp(17px, 2.2vw, 22px);
+    font-weight: 700;
+    line-height: 1.7;
+
+    color: #ffe1b7;
+
+    text-shadow: 0 2px 10px rgba(18, 20, 55, .65);
+}
+
+/* =========================================
+   4. MOVING CLOUDS
+   ========================================= */
+
+.rooftop-clouds {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.rooftop-cloud {
+    position: absolute;
+
+    width: var(--cloud-width, 240px);
+    height: 28px;
+
+    background: rgba(220, 177, 218, .15);
+
+    border-radius: 0;
+    filter: blur(9px);
+
+    box-shadow:
+        34px -10px 0 8px rgba(205, 174, 227, .10),
+        80px 1px 0 12px rgba(247, 187, 215, .09),
+        -32px 6px 0 4px rgba(185, 174, 231, .10);
+
+    animation: cloudDrift var(--cloud-time, 65s)
+        linear infinite;
+}
+
+@keyframes cloudDrift {
+    from {
+        transform: translateX(-35vw);
+    }
+    to {
+        transform: translateX(135vw);
+    }
+}
+
+/* =========================================
+   5. CITY SKYLINE
+   ========================================= */
+
+.rooftop-city {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.city-building {
+    position: absolute;
+    bottom: 11%;
+
+    width: var(--building-width);
+    height: var(--building-height);
+    left: var(--building-left);
+
+    background: var(--building-color);
+
+    box-shadow:
+        inset -8px 0 rgba(13, 18, 51, .16),
+        0 0 18px rgba(20, 19, 53, .10);
+
+    image-rendering: pixelated;
+}
+
+.city-building::before {
+    content: "";
+
+    position: absolute;
+    left: -3px;
+    right: -3px;
+    top: -5px;
+
+    height: 5px;
+
+    background: rgba(30, 29, 65, .8);
+}
+
+.city-window {
+    position: absolute;
+
+    width: 5px;
+    height: 8px;
+
+    background: #ffe3ad;
+
+    box-shadow:
+        0 0 7px rgba(255, 205, 144, .36);
+
+    animation: windowGlow var(--blink-time, 6s)
+        ease-in-out infinite alternate;
+}
+
+.city-window.pink {
+    background: #f4a6ca;
+    box-shadow: 0 0 7px rgba(244, 166, 202, .35);
+}
+
+.city-window.dark {
+    background: #4a4678;
+    box-shadow: none;
+    animation: none;
+}
+
+@keyframes windowGlow {
+    from { opacity: .45; }
+    to { opacity: 1; }
+}
+
+/* =========================================
+   6. ROOFTOP FOREGROUND
+   ========================================= */
+
+.rooftop-foreground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 11%;
+    min-height: 65px;
+
+    z-index: 3;
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            180deg,
+            #353354 0%,
+            #242442 100%
+        );
+
+    border-top: 5px solid #c38cb1;
+
+    box-shadow:
+        0 -5px 15px rgba(245, 174, 211, .12);
+}
+
+.rooftop-rail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 11%;
+
+    height: 55px;
+    z-index: 3;
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 65px,
+            rgba(46, 41, 77, .85) 65px 70px
+        );
+}
+
+.rooftop-rail::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5px;
+
+    height: 5px;
+    background: #655377;
+}
+
+/* Decorative glowing bulbs */
+
+.rooftop-light {
+    position: absolute;
+    z-index: 4;
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #ffe3b4;
+
+    box-shadow:
+        0 0 8px rgba(255, 214, 158, .6),
+        0 0 18px rgba(255, 186, 161, .25);
+
+    pointer-events: none;
+
+    animation: lightBreathe 4s ease-in-out infinite;
+}
+
+@keyframes lightBreathe {
+    0%, 100% { opacity: .65; }
+    50% { opacity: 1; }
+}
+
+/* =========================================
+   7. STARS
+   ========================================= */
+
+.sky-stars {
+    position: absolute;
+    inset: 0;
+
+    z-index: 5;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    display: block;
+
+    width: var(--size, 3px);
+    height: var(--size, 3px);
+
+    padding: 0;
+    border: 0;
+    background: #ffe8ca;
+}
+
+.star.decorative {
+    border-radius: 50%;
+
+    opacity: var(--alpha, .5);
+    pointer-events: none;
+
+    animation: starTwinkle
+        var(--duration, 5s)
+        ease-in-out
+        var(--delay, 0s)
+        infinite alternate;
+}
+
+@keyframes starTwinkle {
+    from { opacity: .15; }
+    to { opacity: var(--alpha, .6); }
+}
+
+/* Interactive letter stars */
+
+.star.letter-star {
+    width: var(--size, 28px);
+    height: var(--size, 28px);
+
+    background: #ffe2b0;
+
+    clip-path: polygon(
+        50% 0%,
+        57% 42%,
+        100% 50%,
+        57% 58%,
+        50% 100%,
+        43% 58%,
+        0% 50%,
+        43% 42%
+    );
+
+    border-radius: 0;
+
+    --proximity: 0;
+
+    opacity: .86;
+
+    transform:
+        translate(-50%, -50%)
+        scale(calc(1 + var(--proximity) * .28));
+
+    transition:
+        transform .2s ease,
+        opacity .2s ease,
+        filter .2s ease;
+
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.star.letter-star.sample {
+    background: #f6c5dc;
+}
+
+.star.letter-star.nearby {
+    opacity: 1;
+    filter: brightness(
+        calc(1 + var(--proximity) * .5)
+    );
+}
+
+.star.letter-star:focus-visible {
+    outline: 2px solid #fff3dc;
+    outline-offset: 5px;
+    opacity: 1;
+}
+
+/* Soft glow when cursor approaches */
+
+.proximity-halo {
+    position: absolute;
+    z-index: 1;
+
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 226, 175, .35),
+        rgba(255, 219, 180, .12) 40%,
+        transparent 75%
+    );
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .2s ease;
+}
+
+.proximity-halo.pink-halo {
+    background: radial-gradient(
+        circle,
+        rgba(255, 192, 224, .35),
+        rgba(255, 192, 224, .10) 40%,
+        transparent 75%
+    );
+}
+
+/* =========================================
+   8. SHOOTING STARS
+   ========================================= */
+
+.shooting-star {
+    position: absolute;
+    z-index: 4;
+
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+    background: #fff1d3;
+
+    box-shadow:
+        0 0 9px #ffe5ba,
+        0 0 20px rgba(255, 215, 177, .3);
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.shooting-star::after {
+    content: "";
+
+    position: absolute;
+    top: 1px;
+    right: 3px;
+
+    width: 85px;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 224, 185, .75)
+    );
+
+    transform-origin: right center;
+}
+
+.shooting-star.fly {
+    animation: shootingFly 1.8s ease-out forwards;
+}
+
+@keyframes shootingFly {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) rotate(-25deg);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: .85;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(220px, 95px)
+            rotate(-25deg);
+    }
+}
+
+/* =========================================
+   9. COUNTER AND NAVIGATION
+   ========================================= */
+
+.sky-counter {
+    position: relative;
+    z-index: 8;
+
+    margin-top: auto;
+    padding-top: 330px;
+
+    font-size: clamp(19px, 2vw, 23px);
+    font-weight: 700;
+    line-height: 1.6;
+
+    text-align: center;
+    color: #ffe4b8;
+
+    text-shadow:
+        0 2px 12px rgba(17, 20, 53, .9);
+}
+
+.sky-legend {
+    position: relative;
+    z-index: 8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin: 14px 0 24px;
+
+    color: #fff0e8;
+    font-size: 14px;
+    text-align: center;
+
+    text-shadow:
+        0 2px 8px rgba(17, 20, 53, .9);
+}
+
+
+
+.sky-navigation {
+    position: relative;
+    z-index: 8;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.nav-link {
+    padding: 12px 22px;
+
+    border: 1px solid rgba(255, 225, 194, .5);
+    border-radius: 999px;
+
+    background: rgba(29, 30, 69, .48);
+    backdrop-filter: blur(10px);
+
+    color: #ffe2b9;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        transform .25s,
+        background .25s;
+}
+
+.nav-link:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 226, 193, .17);
+}
+
+.nav-link:focus-visible {
+    outline: 2px solid #ffe2b9;
+    outline-offset: 4px;
+}
+
+/* =========================================
+   10. LETTER MODAL
+   ========================================= */
+
+.letter-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: grid;
+    place-items: center;
+
+    padding: 22px;
+    overflow-y: auto;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(12, 16, 44, .82);
+    backdrop-filter: blur(9px);
+}
+
+.modal-paper {
+    position: relative;
+    z-index: 1;
+
+    width: min(100%, 570px);
+    max-height: min(85vh, 760px);
+    overflow-y: auto;
+
+    padding: 43px 43px 34px;
+
+    border: 1px solid #f5d7d4;
+    border-radius: 5px 13px 8px 10px;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 36px,
+            rgba(188, 132, 158, .12) 37px,
+            transparent 38px
+        ),
+        linear-gradient(
+            135deg,
+            #fff9ec,
+            #fff0e2 50%,
+            #f9dfe3
+        );
+
+    color: #68546f;
+    text-align: center;
+
+    box-shadow:
+        0 30px 90px rgba(5, 10, 31, .55),
+        5px 7px 0 rgba(225, 184, 193, .2);
+
+    animation: paperAppear .55s
+        cubic-bezier(.22, 1, .36, 1) both;
+}
+
+@keyframes paperAppear {
+    from {
+        opacity: 0;
+        transform: translateY(45px) scale(.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+
+    width: 38px;
+    height: 38px;
+
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+
+    color: #a56b97;
+    font-size: 29px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    background: rgba(165, 107, 151, .12);
+}
+
+.paper-sparkle {
+    color: #c58db4;
+    letter-spacing: 10px;
+    font-size: 18px;
+}
+
+.paper-label {
+    margin: 18px 0 7px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: #a57b96;
+}
+
+.modal-paper h2 {
+    margin: 10px 0 20px;
+
+    font-family: "Berkshire Swash", Georgia, serif;
+    font-size: clamp(30px, 5vw, 43px);
+    font-weight: 400;
+
+    color: #a56b97;
+}
+
+.paper-text {
+    margin: 0 auto 20px;
+    max-width: 450px;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+
+    text-align: left;
+
+    font-family: Georgia, serif;
+    font-size: 17px;
+    line-height: 2;
+}
+
+.paper-date {
+    margin: 0;
+    color: #9d8297;
+    font-size: 12px;
+}
+
+.paper-footer {
+    margin: 28px 0 0;
+    color: #a57b96;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* =========================================
+   11. MOBILE
+   ========================================= */
+
+@media (max-width: 650px) {
+    .sky-world {
+        padding: 55px 18px 50px;
+    }
+
+    .moon {
+        width: 55px;
+        height: 55px;
+        top: 18%;
+        right: 7%;
+
+        box-shadow:
+            inset -12px 6px 0 1px #ffe5bc,
+            10px -6px 25px rgba(255, 222, 173, .12);
+    }
+
+    .sky-header h1 {
+        font-size: clamp(44px, 11vw, 65px);
+    }
+
+    .sky-hint {
+        font-size: 17px;
+    }
+
+    .sky-counter {
+        padding-top: 260px;
+        font-size: 18px;
+    }
+
+    .sky-legend {
+        font-size: 12px;
+        gap: 8px;
+    }
+
+    .modal-paper {
+        padding: 35px 24px 28px;
+    }
+
+    .paper-text {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* =========================================
+   NEW ILLUSTRATED NIGHT SKY BACKGROUND
+   ========================================= */
+
+.sky-world {
+    background-image: url("assets/images/sky-bg.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #3979cf;
+}
+
+/* Hide the old CSS-generated city and rooftop */
+.rooftop-city,
+.rooftop-clouds,
+.rooftop-foreground,
+.rooftop-rail,
+.rooftop-light {
+    display: none !important;
+}
+
+/* Moon and shooting star are already in the image */
+.moon,
+.shooting-star {
+    display: none !important;
+}
+
+/* Remove extra atmospheric overlays */
+.sky-glow,
+.horizon-glow {
+    display: none !important;
+}
+
+/* Keep the original interactive stars above the image */
+.sky-stars {
+    z-index: 3;
+}
+
+/* Keep titles and buttons above the stars */
+.sky-header,
+.sky-counter,
+.sky-legend,
+.sky-navigation {
+    position: relative;
+    z-index: 5;
+}
+
+/* Match the typography of your first two pages */
+.sky-header h1 {
+    color: #ffe2aa;
+    text-shadow:
+        0 0 12px rgba(255, 226, 170, 0.55),
+        0 4px 18px rgba(39, 69, 138, 0.28);
+}
+
+.sky-intro {
+    color: #fff4f4;
+    text-shadow: 0 2px 8px rgba(35, 70, 140, 0.5);
+}
+
+.sky-hint,
+.sky-counter {
+    color: #ffe3b5;
+    text-shadow: 0 2px 10px rgba(35, 70, 140, 0.55);
+}
+
+/* Translucent buttons */
+.nav-link {
+    background: rgba(55, 83, 164, 0.34);
+    border: 1px solid rgba(255, 230, 193, 0.75);
+    backdrop-filter: blur(8px);
+    color: #ffe7bd;
+}
+
+.nav-link:hover {
+    background: rgba(234, 174, 222, 0.25);
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .sky-world {
+        background-position: center center;
+    }
+}
+
+/* =====================================
+   MIDNIGHT MIRAGE — FLOATING SNOW
+   ===================================== */
+
+.snow-container {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.snowflake {
+    position: absolute;
+    top: -20px;
+    left: var(--snow-x);
+
+    width: var(--snow-size);
+    height: var(--snow-size);
+
+    border-radius: 50%;
+
+    background: rgba(255, 246, 252, 0.95);
+
+    opacity: var(--snow-opacity);
+
+    box-shadow:
+        0 0 5px rgba(255, 244, 255, 0.6),
+        0 0 12px rgba(255, 218, 242, 0.25);
+
+    animation:
+        snowFall var(--snow-duration)
+        linear var(--snow-delay)
+        infinite;
+
+    will-change: transform;
+}
+
+/* Each snowflake falls and drifts sideways */
+
+@keyframes snowFall {
+    0% {
+        transform:
+            translate3d(0, -30px, 0);
+    }
+
+    25% {
+        transform:
+            translate3d(
+                calc(var(--snow-drift) * 0.4),
+                25vh,
+                0
+            );
+    }
+
+    50% {
+        transform:
+            translate3d(
+                var(--snow-drift),
+                50vh,
+                0
+            );
+    }
+
+    75% {
+        transform:
+            translate3d(
+                calc(var(--snow-drift) * 0.5),
+                75vh,
+                0
+            );
+    }
+
+    100% {
+        transform:
+            translate3d(
+                var(--snow-drift),
+                110vh,
+                0
+            );
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .snowflake {
+        animation: none;
+        top: var(--snow-static-y);
+    }
+}
+
+/* ====================================
+   MIDNIGHT MIRAGE — ENDING MESSAGE
+   ==================================== */
+
+.sky-ending {
+    position: relative;
+    z-index: 8;
+
+    margin: 14px auto 20px;
+    max-width: 600px;
+    padding: 0 18px;
+
+    text-align: center;
+    font-family: Georgia, serif;
+    font-size: clamp(15px, 1.7vw, 19px);
+    font-style: italic;
+    line-height: 1.8;
+    letter-spacing: 0.4px;
+
+    color: #fff0dc;
+
+    text-shadow:
+        0 0 10px rgba(255, 220, 190, 0.45),
+        0 2px 10px rgba(39, 69, 138, 0.45);
+
+    animation: endingAppear 2s ease-out both;
+}
+
+.ending-sparkle {
+    display: inline-block;
+    margin-left: 7px;
+
+    color: #ffe0a7;
+    font-size: 22px;
+
+    animation: endingTwinkle 3s ease-in-out infinite;
+}
+
+@keyframes endingAppear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes endingTwinkle {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.15);
+    }
+}
+
+@media (max-width: 650px) {
+    .sky-ending {
+        font-size: 15px;
+        line-height: 1.7;
+        margin: 12px auto 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sky-ending,
+    .ending-sparkle {
+        animation: none;
+    }
+}
+
+/* =====================================
+   DISTINCT GOLD AND PINK LETTER STARS
+   ===================================== */
+
+/* Gold stars — anonymously shared letters */
+.star.letter-star:not(.sample) {
+    background: #ffdf91;
+    opacity: 1;
+
+    filter:
+        drop-shadow(0 0 5px rgba(255, 220, 130, 0.8))
+        drop-shadow(0 0 12px rgba(255, 194, 100, 0.45));
+}
+
+/* Pink stars — fictional sample stories */
+.star.letter-star.sample {
+    background: #ed84bc;
+    opacity: 1;
+
+    /* A slightly different, diamond-like silhouette */
+    clip-path: polygon(
+        50% 0%,
+        62% 39%,
+        100% 50%,
+        62% 61%,
+        50% 100%,
+        38% 61%,
+        0% 50%,
+        38% 39%
+    );
+
+    filter:
+        drop-shadow(0 0 5px rgba(235, 122, 184, 0.85))
+        drop-shadow(0 0 12px rgba(245, 143, 204, 0.5));
+}
+
+/* Brighter pink glow on approach */
+.star.letter-star.sample.nearby {
+    filter: brightness(1.25);
+}
+
+/* Stronger pink halo */
+.proximity-halo.pink-halo {
+    background: radial-gradient(
+        circle,
+        rgba(228, 116, 178, 0.5) 0%,
+        rgba(255, 122, 195, 0.23) 35%,
+        rgba(255, 122, 195, 0) 75%
+    );
+}
+
+/* Stronger gold halo */
+.proximity-halo:not(.pink-halo) {
+    background: radial-gradient(
+        circle,
+        rgba(255, 223, 144, 0.5) 0%,
+        rgba(255, 210, 120, 0.2) 35%,
+        rgba(255, 210, 120, 0) 75%
+    );
+}
+
+/* Legend colors */
+.legend-dot {
+    background: #ffdf91;
+    box-shadow: 0 0 8px rgba(255, 223, 145, 0.8);
+}
+
+.legend-dot.demo-dot {
+    background: #eb7db8;
+    box-shadow: 0 0 8px rgba(255, 130, 197, 0.85);
+}
+
+/* =====================================
+   COMPACT STAR GUIDE
+   ===================================== */
+
+.star-guide {
+    position: relative;
+    z-index: 8;
+
+    width: fit-content;
+    max-width: calc(100% - 24px);
+
+    margin: 10px auto 16px;
+    padding: 9px 18px;
+
+    border: 1px solid rgba(255, 232, 207, 0.35);
+    border-radius: 999px;
+
+    background: rgba(61, 87, 161, 0.38);
+    backdrop-filter: blur(8px);
+
+    box-shadow: 0 3px 12px rgba(30, 50, 100, 0.1);
+}
+
+.star-guide-title {
+    display: none;
+}
+
+.star-guide-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.star-guide-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.guide-star {
+    font-size: 30px;
+    line-height: 1;
+}
+
+.star-guide-item strong {
+    display: block;
+    color: #fff4ec;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.star-guide-item small {
+    display: block;
+    margin-top: 2px;
+    color: #f4e5f0;
+    font-size: 10px;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .star-guide {
+        border-radius: 16px;
+        padding: 9px 12px;
+    }
+
+    .star-guide-items {
+        gap: 12px;
+    }
+
+    .star-guide-item strong {
+        font-size: 11px;
+    }
+
+    .star-guide-item small {
+        font-size: 9px;
+    }
+}
+
+/* =========================================
+   MIDNIGHT MIRAGE — COMPACT STAR GUIDE
+   ========================================= */
+
+.star-guide {
+    position: relative;
+    z-index: 8;
+
+    width: fit-content;
+    max-width: calc(100% - 24px);
+
+    margin: 10px auto 16px;
+    padding: 20px 22px;
+
+    border: 1px solid rgba(255, 232, 207, 0.4);
+    border-radius: 999px;
+
+    background: rgba(61, 87, 161, 0.38);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    box-shadow:
+        0 4px 16px rgba(30, 50, 100, 0.12);
+
+    text-align: center;
+}
+
+/* Hide the large heading */
+.star-guide-title {
+    display: none;
+}
+
+/* Two explanations in one row */
+
+.star-guide-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+
+.star-guide-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.guide-star {
+    font-size: 30px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.gold-star {
+    color: #ffdf91;
+    text-shadow: 0 0 8px rgba(255, 218, 125, 0.8);
+}
+
+.pink-star {
+    color: #ff82c5;
+    text-shadow: 0 0 8px rgba(255, 130, 197, 0.8);
+}
+
+.star-guide-item strong {
+    display: block;
+    color: #fff4ec;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.star-guide-item small {
+    display: block;
+    margin-top: 2px;
+    color: #f4e5f0;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Make the ending text more compact */
+.sky-ending {
+    position: relative;
+    z-index: 8;
+    margin: 2px auto 14px;
+}
+
+/* Keep all important text above the star layer */
+.sky-header,
+.sky-counter,
+.sky-ending,
+.star-guide,
+.sky-navigation {
+    position: relative;
+    z-index: 8;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .star-guide {
+        border-radius: 16px;
+        padding: 9px 12px;
+        margin: 10px auto 14px;
+    }
+
+    .star-guide-items {
+        gap: 12px;
+    }
+
+    .star-guide-item strong {
+        font-size: 11px;
+    }
+
+    .star-guide-item small {
+        font-size: 9px;
+    }
+
+    .guide-star {
+        font-size: 18px;
+    }
+}
+
+/* =========================================
+   MIDNIGHT MIRAGE — EXPANDING SKY
+   ========================================= */
+
+/* Allow the page to grow vertically */
+.sky-world {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* Extend the blue sky naturally */
+    background-color: #478de9;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(44, 116, 219, 0.16),
+            rgba(94, 151, 240, 0.06) 60%,
+            rgba(149, 125, 222, 0.08)
+        ),
+        url("assets/images/sky-bg.png");
+
+    background-repeat:
+        no-repeat,
+        no-repeat;
+
+    background-position:
+        center center,
+        center bottom;
+
+    background-size:
+        100% 100%,
+        100% auto;
+}
+
+/* Star layer covers the expanded page */
+.sky-stars {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Letter stars remain clickable */
+.star.letter-star {
+    pointer-events: auto;
+}
+
+/* Header stays at the top */
+.sky-header {
+    position: relative;
+    z-index: 8;
+    flex-shrink: 0;
+}
+
+/* Counter moves toward the bottom */
+.sky-counter {
+    position: relative;
+    z-index: 8;
+
+    margin-top: auto;
+    padding-top: 0;
+}
+
+/* Keep ending and guide together */
+.sky-ending {
+    position: relative;
+    z-index: 8;
+    flex-shrink: 0;
+}
+
+.star-guide {
+    position: relative;
+    z-index: 8;
+    flex-shrink: 0;
+}
+
+/* Navigation remains at the bottom */
+.sky-navigation {
+    position: relative;
+    z-index: 8;
+    flex-shrink: 0;
+}
+
+/* Snow covers the entire expanded page */
+.snow-container {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .sky-world {
+        background-size:
+            100% 100%,
+            auto 100vh;
+
+        background-position:
+            center center,
+            center bottom;
+    }
+}
+
+/* Make sure interactive stars remain visible */
+
+.sky-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.star.letter-star {
+    display: block;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 4;
+}
+
+.star.decorative {
+    display: block;
+    visibility: visible;
+}
+
+/* =========================================
+   FIX SKY BACKGROUND SEAM
+   ========================================= */
+
+.sky-world {
+    position: relative;
+
+    /* Blue sky matching the illustration */
+    background-color: #4389e8;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(67, 137, 232, 0) 0%,
+            rgba(67, 137, 232, 0) 65%,
+            rgba(67, 137, 232, 0.15) 85%,
+            rgba(67, 137, 232, 0.35) 100%
+        ),
+        url("assets/images/sky-bg.png");
+
+    background-size:
+        100% 100%,
+        cover;
+
+    background-position:
+        center center,
+        center top;
+
+    background-repeat:
+        no-repeat,
+        no-repeat;
+}
+
+/* Keep the illustration consistent on mobile */
+
+@media (max-width: 650px) {
+    .sky-world {
+        background-size:
+            100% 100%,
+            cover;
+
+        background-position:
+            center center,
+            center top;
+    }
+}
+
+/* ==========================================
+   LARGER STAR GUIDE
+   ========================================== */
+
+.sky-guide {
+    width: fit-content;
+    max-width: 92%;
+
+    padding: 20px 35px;
+
+    font-size: 16px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Make the star icons slightly larger */
+.sky-legend .legend-dot {
+    width: 22px;
+    height: 22px;
+}
+
+/* Mobile adjustment */
+@media (max-width: 650px) {
+    .sky-legend {
+        padding: 14px 20px;
+        font-size: 13px;
+        max-width: 95%;
+    }
+}
