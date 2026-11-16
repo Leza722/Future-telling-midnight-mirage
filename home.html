@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Midnight Mirage ✧</title>
+
+<style>
+
+/* ====================================
+   BASIC SETTINGS
+==================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #7887bc;
+}
+
+/* Keep original website unchanged */
+
+#world {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ====================================
+   MUSIC BUTTON
+==================================== */
+
+#music-note {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  z-index: 9999;
+
+  width: 135px;
+  height: 135px;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#music-note:focus-visible {
+  outline: 2px solid #fff0ce;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* The entire animated character */
+
+.note-character {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  transform-origin: center bottom;
+}
+
+.note-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+
+  filter: drop-shadow(
+    4px 7px 4px rgba(30, 24, 68, 0.28)
+  );
+}
+
+/* Hover */
+
+#music-note:not(.playing):hover .note-character {
+  transform: translateY(-5px) scale(1.06);
+}
+
+/* ====================================
+   VERTICAL BOUNCE ANIMATION
+==================================== */
+
+
+#music-note.playing .note-character {
+  animation: noteJump 2.5s ease-in-out infinite;
+}
+
+
+/* Real upward/downward movement */
+
+
+
+/* Gentle floating animation */
+
+@keyframes noteJump {
+  0%, 100% {
+    transform: translateY(0px) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+
+
+/* ====================================
+   STAR ANIMATION
+==================================== */
+
+.main-star {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#music-note.playing .main-star {
+  animation: starTwinkle 1.6s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+
+  0%, 100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+}
+
+/* ====================================
+   ORBIT ANIMATION
+==================================== */
+
+.orbit {
+  transform-origin: 60px 64px;
+}
+
+#music-note.playing .orbit {
+  animation: orbitMove 4s ease-in-out infinite;
+}
+
+@keyframes orbitMove {
+
+  0%, 100% {
+    opacity: 0.8;
+    transform: rotate(-4deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: rotate(4deg);
+  }
+
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+
+@media (max-width: 600px) {
+
+ 
+#music-note {
+  position: fixed;
+
+  left: px;      /* 往右移动 */
+  bottom: 65px;    /* 往上移动 */
+
+  z-index: 9999;
+
+  width: 80px;    /* 缩小音符 */
+  height: 80px;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+}
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  #music-note.playing .note-character,
+  #music-note.playing .main-star,
+  #music-note.playing .orbit {
+    animation: none;
+  }
+
+}
+
+/* FINAL MUSIC NOTE POSITION & SIZE */
+
+#music-note {
+  left: 85px;
+  bottom: 75px;
+
+  width: 100px;
+  height: 100px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  #music-note {
+    left: 35px;
+    bottom: 35px;
+    width: 75px;
+    height: 75px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ====================================
+     ORIGINAL WEBSITE
+==================================== -->
+
+<iframe
+  id="world"
+  src="index.html"
+  title="Midnight Mirage">
+</iframe>
+
+
+<!-- ====================================
+     3D MUSIC NOTE
+==================================== -->
+
+<button
+  id="music-note"
+  type="button"
+  aria-label="Play background music"
+  aria-pressed="false"
+  title="Play / Pause Music">
+
+<span class="note-character">
+
+<svg
+  class="note-svg"
+  viewBox="0 0 120 120"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true">
+
+<defs>
+
+  <!-- Main lavender gradient -->
+  <linearGradient
+    id="noteColor"
+    x1="0%" y1="0%"
+    x2="100%" y2="100%">
+
+    <stop offset="0%" stop-color="#d8caff"/>
+    <stop offset="50%" stop-color="#aaa0ed"/>
+    <stop offset="100%" stop-color="#7776ca"/>
+
+  </linearGradient>
+
+  <!-- 3D side gradient -->
+  <linearGradient
+    id="sideColor"
+    x1="0%" y1="0%"
+    x2="100%" y2="100%">
+
+    <stop offset="0%" stop-color="#7162a8"/>
+    <stop offset="100%" stop-color="#40346f"/>
+
+  </linearGradient>
+
+  <!-- Golden star -->
+  <linearGradient
+    id="starColor"
+    x1="0%" y1="0%"
+    x2="100%" y2="100%">
+
+    <stop offset="0%" stop-color="#fff7d9"/>
+    <stop offset="100%" stop-color="#ffc98f"/>
+
+  </linearGradient>
+
+  <!-- Retro dots -->
+  <pattern
+    id="dots"
+    width="5"
+    height="5"
+    patternUnits="userSpaceOnUse">
+
+    <circle
+      cx="1"
+      cy="1"
+      r="0.7"
+      fill="#6656ad"
+      opacity="0.35"/>
+
+  </pattern>
+
+  <!--
+    A NORMAL DOUBLE MUSIC NOTE:
+    two separate oval noteheads,
+    two thin stems and a connecting beam.
+  -->
+
+  <g id="note-body">
+
+    <!-- Connecting beam -->
+    <path d="
+      M39 30
+      Q39 27 43 26
+      L86 14
+      Q90 13 90 17
+      L90 28
+      L48 40
+      L48 91
+      L39 91
+      Z"/>
+
+    <!-- Right stem -->
+    <path d="
+      M81 25
+      L90 22
+      L90 75
+      L81 75
+      Z"/>
+
+    <!-- Left notehead -->
+    <ellipse
+      cx="31"
+      cy="91"
+      rx="17"
+      ry="12"
+      transform="rotate(-20 31 91)"/>
+
+    <!-- Right notehead -->
+    <ellipse
+      cx="73"
+      cy="77"
+      rx="17"
+      ry="12"
+      transform="rotate(-20 73 77)"/>
+
+  </g>
+
+</defs>
+
+
+<!-- ====================================
+     GOLDEN ORBIT BEHIND NOTE
+==================================== -->
+
+<g class="orbit">
+
+  <ellipse
+    cx="60"
+    cy="65"
+    rx="56"
+    ry="17"
+    transform="rotate(-23 60 65)"
+    fill="none"
+    stroke="#72558f"
+    stroke-width="4"/>
+
+  <ellipse
+    cx="60"
+    cy="65"
+    rx="56"
+    ry="17"
+    transform="rotate(-23 60 65)"
+    fill="none"
+    stroke="#ffe6bb"
+    stroke-width="2.3"/>
+
+</g>
+
+
+<!-- ====================================
+     3D SIDE THICKNESS
+==================================== -->
+
+<use
+  href="#note-body"
+  transform="translate(4 6)"
+  fill="url(#sideColor)"
+  stroke="#47386f"
+  stroke-width="3"
+  stroke-linejoin="round"/>
+
+
+<!-- ====================================
+     FRONT FACE
+==================================== -->
+
+<use
+  href="#note-body"
+  fill="url(#noteColor)"
+  stroke="#fff0d8"
+  stroke-width="3.5"
+  stroke-linejoin="round"/>
+
+
+<!-- RETRO DOT TEXTURE -->
+
+<use
+  href="#note-body"
+  fill="url(#dots)"
+  opacity="0.6"/>
+
+
+<!-- ====================================
+     HIGHLIGHTS
+==================================== -->
+
+<!-- Beam highlight -->
+
+<path
+  d="M44 31 L84 20"
+  fill="none"
+  stroke="#fff8ef"
+  stroke-width="2.5"
+  stroke-linecap="round"
+  opacity="0.9"/>
+
+<!-- Left notehead highlight -->
+
+<path
+  d="M20 89 Q25 82 34 83"
+  fill="none"
+  stroke="#fff9ee"
+  stroke-width="3"
+  stroke-linecap="round"
+  opacity="0.8"/>
+
+<!-- Right notehead highlight -->
+
+<path
+  d="M62 75 Q67 68 76 69"
+  fill="none"
+  stroke="#fff9ee"
+  stroke-width="3"
+  stroke-linecap="round"
+  opacity="0.8"/>
+
+
+<!-- ====================================
+     MAIN GOLDEN STAR
+==================================== -->
+
+<g class="main-star">
+
+  <!-- Star thickness -->
+  <path
+    d="
+      M91 6
+      L98 19
+      L113 22
+      L102 33
+      L105 48
+      L91 40
+      L77 48
+      L80 33
+      L69 22
+      L84 19
+      Z"
+    transform="translate(3 4)"
+    fill="#59417e"/>
+
+  <!-- Star face -->
+  <path
+    d="
+      M91 6
+      L98 19
+      L113 22
+      L102 33
+      L105 48
+      L91 40
+      L77 48
+      L80 33
+      L69 22
+      L84 19
+      Z"
+    fill="url(#starColor)"
+    stroke="#6c518f"
+    stroke-width="3"
+    stroke-linejoin="round"/>
+
+  <!-- Star highlight -->
+  <path
+    d="M84 23 L91 11 L96 21"
+    fill="none"
+    stroke="#fff9ed"
+    stroke-width="2.2"
+    stroke-linecap="round"/>
+
+</g>
+
+
+<!-- ====================================
+     SMALL SPARKLE
+==================================== -->
+
+<path
+  d="
+    M108 65
+    L111 72
+    L118 75
+    L111 78
+    L108 85
+    L105 78
+    L98 75
+    L105 72
+    Z"
+  fill="#ffe6b7"
+  stroke="#755b98"
+  stroke-width="2"/>
+
+</svg>
+
+</span>
+
+</button>
+
+
+<!-- ====================================
+     AUDIO PLAYER
+==================================== -->
+
+<audio
+  id="background-music"
+  preload="metadata">
+</audio>
+
+
+<script>
+"use strict";
+
+/* ====================================
+   THREE SONGS
+==================================== */
+
+const songs = [
+  "assets/music/song1.mp3",
+  "assets/music/song2.mp3",
+  "assets/music/song3.mp3"
+];
+
+/* ====================================
+   ELEMENTS
+==================================== */
+
+const audio =
+  document.getElementById("background-music");
+
+const musicButton =
+  document.getElementById("music-note");
+
+audio.volume = 0.35;
+
+/* ====================================
+   RANDOM PLAYLIST
+==================================== */
+
+let playlist = [];
+let currentSong = -1;
+
+function shufflePlaylist() {
+
+  playlist = songs.map((_, index) => index);
+
+  for (let i = playlist.length - 1; i > 0; i--) {
+
+    const j =
+      Math.floor(Math.random() * (i + 1));
+
+    [playlist[i], playlist[j]] =
+      [playlist[j], playlist[i]];
+  }
+
+  // Avoid repeating between cycles
+
+  if (
+    playlist.length > 1 &&
+    playlist[0] === currentSong
+  ) {
+    [playlist[0], playlist[1]] =
+      [playlist[1], playlist[0]];
+  }
+}
+
+function getNextSong() {
+
+  if (playlist.length === 0) {
+    shufflePlaylist();
+  }
+
+  return playlist.shift();
+}
+
+/* ====================================
+   LOAD SONG
+==================================== */
+
+function loadSong(index) {
+
+  currentSong = index;
+  audio.src = songs[index];
+  audio.load();
+}
+
+/* ====================================
+   PLAY / PAUSE
+==================================== */
+
+async function toggleMusic() {
+
+  if (!audio.paused) {
+    audio.pause();
+    return;
+  }
+
+  try {
+    await audio.play();
+  } catch (error) {
+    console.error("Music playback failed:", error);
+  }
+}
+
+/* ====================================
+   NEXT SONG AUTOMATICALLY
+==================================== */
+
+async function playNextSong() {
+
+  loadSong(getNextSong());
+
+  try {
+    await audio.play();
+  } catch (error) {
+    console.error("Next song failed:", error);
+  }
+}
+
+/* ====================================
+   CLICK MUSIC NOTE
+==================================== */
+
+musicButton.addEventListener(
+  "click",
+  toggleMusic
+);
+
+/* ====================================
+   ANIMATION STATE
+==================================== */
+
+audio.addEventListener("play", () => {
+
+  musicButton.classList.add("playing");
+
+  musicButton.setAttribute(
+    "aria-label",
+    "Pause background music"
+  );
+
+  musicButton.setAttribute(
+    "aria-pressed",
+    "true"
+  );
+});
+
+audio.addEventListener("pause", () => {
+
+  musicButton.classList.remove("playing");
+
+  musicButton.setAttribute(
+    "aria-label",
+    "Play background music"
+  );
+
+  musicButton.setAttribute(
+    "aria-pressed",
+    "false"
+  );
+});
+
+/* ====================================
+   SONG ENDED
+==================================== */
+
+audio.addEventListener(
+  "ended",
+  playNextSong
+);
+
+/* ====================================
+   INITIAL SONG
+==================================== */
+
+loadSong(getNextSong());
+
+</script>
+
+</body>
+</html>
