@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#171d42">
+
+  <title>The Night Sky | Midnight Mirage</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="sky.css">
+
+  <!-- JavaScript -->
+  <script src="sky.js" defer></script>
+</head>
+
+<body>
+
+  <main class="sky-world">
+
+    <!-- Background glow -->
+    <div class="sky-glow" aria-hidden="true"></div>
+
+    <!-- Crescent moon -->
+    <div class="moon" aria-hidden="true"></div>
+
+    <!-- Interactive stars -->
+    <div
+      class="sky-stars"
+      id="sky-stars"
+      aria-label="Interactive stars containing letters">
+    </div>
+
+    <!-- Horizon light -->
+    <div class="horizon-glow"
+         aria-hidden="true"></div>
+
+    <!-- Page heading -->
+    <header class="sky-header">
+
+      <p class="eyebrow">
+        MIDNIGHT MIRAGE · CHAPTER THREE
+      </p>
+
+      <h1>The Night Sky</h1>
+
+      <p class="sky-intro">
+        Every star holds a story someone
+        couldn't say out loud.
+      </p>
+
+      <p class="sky-hint">
+        ✦ Touch a glowing star to discover its letter ✦
+      </p>
+
+    </header>
+
+    <!-- Number of shared letters -->
+    <div
+      class="sky-counter"
+      id="sky-counter"
+      aria-live="polite">
+      
+    </div>
+<p class="sky-ending">
+  You may never know who wrote these words,<br>
+  but somewhere, someone feels the same.
+  <span class="ending-sparkle">✧</span>
+</p>
+    <!-- Star legend -->
+    
+<div class="star-guide">
+    <p class="star-guide-title">✧ A Little Guide to the Stars ✧</p>
+
+    <div class="star-guide-items">
+        <div class="star-guide-item">
+            <span class="guide-star gold-star">✦</span>
+            <span>
+                <strong>Golden Stars</strong>
+                <small>Letters shared anonymously by others</small>
+            </span>
+        </div>
+
+        <div class="star-guide-item">
+            <span class="guide-star pink-star">✦</span>
+            <span>
+                <strong>Pink Stars</strong>
+                <small>Fictional sample letters</small>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Navigation -->
+    <nav class="sky-navigation"
+         aria-label="Page navigation">
+
+      <a href="dream.html" class="nav-link">
+        ← Still Awake?
+      </a>
+
+      <a href="index.html" class="nav-link">
+        Back to the Journey ✦
+      </a>
+
+    </nav>
+
+  </main>
+
+
+  <!-- ===================================
+       LETTER POPUP
+       =================================== -->
+
+  <section
+    class="letter-modal"
+    id="letter-modal"
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title">
+
+    <div
+      class="modal-backdrop"
+      id="modal-backdrop">
+    </div>
+
+    <article class="modal-paper" id="modal-paper">
+
+      <button
+        class="modal-close"
+        id="modal-close"
+        type="button"
+        aria-label="Close letter">
+        ×
+      </button>
+
+      <div class="paper-sparkle"
+           aria-hidden="true">
+        ✦ ☾ ✦
+      </div>
+
+      <p class="paper-label" id="paper-label">
+        A LETTER FROM THE NIGHT
+      </p>
+
+      <h2 id="modal-title">
+        Dear Stranger...
+      </h2>
+
+      <p class="paper-text" id="paper-text"></p>
+
+      <p class="paper-date" id="paper-date"></p>
+
+      <p class="paper-footer">
+        Somewhere, someone is looking
+        at the same sky. ✧
+      </p>
+
+    </article>
+
+  </section>
+
+</body>
+</html>
