@@ -1,0 +1,349 @@
+
+/* BASIC SETTINGS */
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "DM Sans", sans-serif;
+}
+
+/* FULL SCREEN SCENE */
+
+.dream-scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #79bde7;
+}
+
+/* SKY */
+
+.sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #79c6e7 0%,
+    #80b6ed 35%,
+    #d4a8d3 65%,
+    #f4b6c3 100%
+  );
+}
+
+/* CITY BACKGROUND */
+
+
+
+
+.city {
+    position: absolute;
+    inset: 0;
+
+    background-image: url("assets/images/city-background.png");
+
+    background-size: auto 100%;
+    background-position: 0 center;
+    background-repeat: repeat-x;
+
+    z-index: 1;
+}
+
+
+
+/* FAST MOVING ROAD */
+
+.moving-road {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 20%;
+
+    background-color: #17385f;
+
+    background-image: repeating-linear-gradient(
+        to right,
+        transparent 0px,
+        transparent 90px,
+        #fff3cb 90px,
+        #fff3cb 180px,
+        transparent 180px,
+        transparent 260px
+    );
+
+    background-size: 260px 5px;
+    background-repeat: repeat-x;
+    background-position: 0 55%;
+
+    z-index: 2;
+
+    animation: movingRoad 1.9s linear infinite;
+}
+
+/* ROAD ANIMATION */
+
+@keyframes movingRoad {
+    from {
+        background-position: 0 55%;
+    }
+
+    to {
+        background-position: -260px 55%;
+    }
+}
+
+
+
+
+/* ROAD */
+
+.road {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 27%;
+  background: #102d4f;
+  overflow: hidden;
+}
+
+/* MOVING ROAD LINES */
+
+.road-lines {
+  position: absolute;
+  top: 48%;
+  left: 0;
+  width: 100%;
+  height: 5px;
+
+  background: repeating-linear-gradient(
+    to right,
+    #fff2c7 0px,
+    #fff2c7 100px,
+    transparent 100px,
+    transparent 200px
+  );
+
+  background-size: 200px 100%;
+  animation: roadMove 0.9s linear infinite;
+}
+
+@keyframes roadMove {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -200px;
+  }
+}
+
+/* CAR */
+
+
+/* CAR */
+
+.car {
+    position: absolute;
+    left: 55%;
+    bottom: 10%;
+    width: 80%;
+    max-width: 600px;
+    z-index: 5;
+
+    animation: carBounce 1.2s ease-in-out infinite;
+}
+
+.car img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.car img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@keyframes carBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-1px);
+    }
+}
+
+
+.car-placeholder {
+    display: none;
+    font-size: clamp(70px, 13vw, 170px);
+
+    transform: scaleX(-1);
+}
+
+/* SMALL VERTICAL MOVEMENT */
+
+
+
+
+/* TITLE */
+
+
+/* VINTAGE HAND-DRAWN TITLE */
+
+.site-header {
+    position: absolute;
+    top: 6%;
+    left: 4%;
+    z-index: 10;
+}
+
+.main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0;
+
+    font-family: "Berkshire Swash", cursive;
+    font-weight: 400;
+    color: #ffe4ae;
+
+    text-shadow:
+        0 0 5px rgba(255, 225, 165, 0.8),
+        0 0 16px rgba(255, 210, 150, 0.45),
+        2px 3px 1px rgba(67, 54, 91, 0.4);
+}
+
+.title-midnight {
+    display: block;
+    font-size: clamp(55px, 8vw, 120px);
+    line-height: 1;
+    transform: rotate(-4deg);
+}
+
+.title-mirage {
+    display: block;
+    font-size: clamp(65px, 10vw, 145px);
+    line-height: 0.95;
+
+    margin-left: 40px;
+    margin-top: -5px;
+
+    transform: rotate(3deg);
+}
+
+/* ENTER BUTTON */
+
+
+/* DREAM WORLD ENTRANCE */
+
+.enter-button {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    width: max-content;
+    max-width: 90vw;
+
+    color: #ffc6e5;
+    text-decoration: none;
+    text-align: center;
+
+    cursor: pointer;
+}
+
+/* SMALL DECORATIVE TEXT */
+
+.enter-decoration {
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(6px, 1vw, 13px);
+    letter-spacing: 4px;
+    color: #ffc6e5;
+    opacity: 0.85;
+}
+
+/* MAIN ARTISTIC TEXT */
+
+.enter-text {
+    font-family: "Berkshire Swash", cursive;
+    font-size: clamp(26px, 3vw, 30px);
+    line-height: 1.2;
+
+    color: #ffc6e5;
+
+    text-shadow:
+        0 0 8px rgba(255, 228, 174, 0.7),
+        0 0 20px rgba(255, 218, 160, 0.35);
+
+    transition: transform 0.3s ease;
+}
+
+/* BIGGER ARROW */
+
+.down-arrow {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    line-height: 1;
+
+    color: #ffc6e5;
+
+    text-shadow:
+        0 0 10px rgba(255, 228, 174, 0.7);
+
+    animation: arrowBounce 2s ease-in-out infinite;
+}
+
+/* HOVER EFFECT */
+
+.enter-button:hover .enter-text {
+    transform: scale(1.06);
+}
+
+.enter-button:hover .down-arrow {
+    color: #ffffff;
+}
+
+/* ARROW ANIMATION */
+
+@keyframes arrowBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(7px);
+    }
+}
+
+
+/* P5.JS LAYER */
+
+#sketch-container {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+#sketch-container canvas {
+  display: block;
+}
+
+
+.road {
+    display: none;
+}
