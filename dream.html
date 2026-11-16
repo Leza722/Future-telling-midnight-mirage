@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Still Awake? | Midnight Mirage</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Berkshire+Swash&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="dream.css">
+
+    <!-- JavaScript will be added later -->
+   <!-- p5.js Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.11/p5.min.js" defer></script>
+
+<!-- Snowflake Animation -->
+<script src="dream.js" defer></script>
+
+</head>
+
+<body>
+
+    <main class="dream-world">
+
+        <!-- BACKGROUND STARS -->
+        <div class="stars"></div>
+        <!-- ANIMATED SNOWFLAKES -->
+        <div id="snow-container"></div>
+
+        <!-- PAGE HEADER -->
+        <header class="dream-header">
+
+            <h1>Still Awake?</h1>
+
+            <p>
+                You're not the only one awake tonight.
+            </p>
+
+        </header>
+
+
+        <!-- TWO MAIN CHOICES -->
+        
+<!-- TWO VINTAGE DREAM TICKETS -->
+<section class="choice-container" aria-label="Choose your midnight journey">
+
+    <!-- TICKET 01: LEAVE A THOUGHT -->
+    <button
+        class="dream-choice write-choice dream-ticket"
+        id="write-button"
+        type="button"
+    >
+        <span class="ticket-main">
+
+            <span class="ticket-topline">
+                <span>MIDNIGHT MIRAGE</span>
+                <span>NO. 001</span>
+            </span>
+
+            <span class="ticket-icon" aria-hidden="true">✉</span>
+
+            <span class="choice-title">
+                Leave a Thought
+            </span>
+
+            <span class="choice-description">
+                A ticket to your unspoken words
+            </span>
+
+            <span class="ticket-bottomline">
+                <span>ONE WAY TO YOUR HEART</span>
+                <span>✦</span>
+            </span>
+
+        </span>
+
+        <span class="ticket-stub" aria-hidden="true">
+            <span>ADMIT ONE</span>
+            <span class="ticket-stub-star">✦</span>
+            <span>01</span>
+        </span>
+    </button>
+
+
+    <!-- TICKET 02: EXPLORE THE SKY -->
+    <a
+        href="sky.html"
+        class="dream-choice explore-choice dream-ticket"
+    >
+        <span class="ticket-main">
+
+            <span class="ticket-topline">
+                <span>MIDNIGHT MIRAGE</span>
+                <span>NO. 002</span>
+            </span>
+
+            <span class="ticket-icon" aria-hidden="true">✧</span>
+
+            <span class="choice-title">
+                Explore the Night Sky
+            </span>
+
+            <span class="choice-description">
+                A ticket to the stories among the stars
+            </span>
+
+            <span class="ticket-bottomline">
+                <span>DESTINATION: THE STARS</span>
+                <span>✦</span>
+            </span>
+
+        </span>
+
+        <span class="ticket-stub" aria-hidden="true">
+            <span>ADMIT ONE</span>
+            <span class="ticket-stub-star">✦</span>
+            <span>02</span>
+        </span>
+    </a>
+
+</section>
+
+
+        <!-- WRITING SPACE -->
+         
+        <!-- Hidden until the first button is clicked -->
+
+       
+<!-- LETTER WRITING SPACE -->
+<section class="letter-overlay" id="writing-space" hidden>
+
+    <button class="close-letter" id="close-letter"
+            type="button" aria-label="Close letter">
+        ✕
+    </button>
+
+<!-- PRIVATE LETTER: SEALING ANIMATION -->
+<div class="private-seal-scene" id="private-seal-scene" hidden>
+
+    <div class="private-seal-envelope">
+        <div class="private-seal-back"></div>
+
+        <div class="private-seal-paper"></div>
+
+        <div class="private-seal-flap"></div>
+
+        <div class="private-seal-front"></div>
+
+        <div class="private-seal-stamp">☾</div>
+    </div>
+
+    <div class="private-seal-message">
+        <h2>Safe with the Moon</h2>
+
+        <p>Some words are meant to stay with you.</p>
+
+        <span>Saved privately in this browser ✧</span>
+
+        <div class="private-seal-actions">
+            <button id="write-another-letter" type="button">
+                Write Another Letter
+            </button>
+
+           
+<a href="sky.html">
+    Explore the Night Sky ✦
+</a>
+
+        </div>
+    </div>
+
+</div>
+
+    <div class="letter-scene">
+
+        <!-- Opening envelope -->
+        <div class="envelope" id="envelope">
+            <div class="envelope-back"></div>
+            <div class="envelope-flap"></div>
+            <div class="envelope-front"></div>
+            <span class="envelope-seal">☾</span>
+        </div>
+
+        <!-- Letter paper -->
+        <div class="letter-paper" id="letter-paper">
+            <!-- Paper folding layers -->
+        <div class="paper-fold paper-fold-left"></div>
+        <div class="paper-fold paper-fold-right"></div>
+            <div class="letter-decoration">✦ ☾ ✦</div>
+
+            <h2>Dear Midnight...</h2>
+
+            <p class="letter-subtitle">
+                Some thoughts are easier to write at night.
+            </p>
+
+            <textarea
+                id="thought-input"
+                maxlength="2000"
+                placeholder="Dear midnight, today I wanted to say..."
+                aria-label="Write your midnight thought"
+            ></textarea>
+
+            <div class="privacy-options">
+
+                <label>
+                    <input type="radio"
+                           name="privacy"
+                           value="private"
+                           checked>
+                    Keep it to myself
+                </label>
+
+                <label>
+                    <input type="radio"
+                           name="privacy"
+                           value="public">
+                    Share anonymously
+                </label>
+
+            </div>
+
+            <button id="save-thought" type="button">
+                Keep My Letter ✦
+            </button>
+
+            <p class="letter-status"
+               id="letter-status"
+               role="status"></p>
+<!-- Final airplane shape -->
+
+<div class="folded-plane" aria-hidden="true">
+    <svg viewBox="0 0 120 80"
+         xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Main airplane body -->
+        <path
+            d="M5 35 L115 5 L72 75 L52 48 Z"
+            fill="#fff0dc"
+            stroke="#d6a6bb"
+            stroke-width="2"
+            stroke-linejoin="round"
+        />
+
+        <!-- Folded wing -->
+        <path
+            d="M52 48 L115 5 L38 43 Z"
+            fill="#f5cddd"
+            stroke="#d6a6bb"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+        />
+
+        <!-- Center fold -->
+        <path
+            d="M52 48 L72 75 L115 5"
+            fill="none"
+            stroke="#c38ca9"
+            stroke-width="1.5"
+        />
+
+    </svg>
+</div>
+
+        </div>
+
+    </div>
+
+    <!-- Flying paper airplane -->
+
+</section>
+
+
+
+
+
+        <!-- BACK TO HOME -->
+        <a href="index.html" class="back-button">
+            ← Back to the Journey
+        </a>
+
+    </main>
+
+</body>
+
+</html>
