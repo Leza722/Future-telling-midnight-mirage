@@ -1,8 +1,8 @@
 
 /* =========================================
    MIDNIGHT MIRAGE — THE NIGHT SKY
-   Complete JavaScript
-   ========================================= */
+   Firebase Firestore Version
+========================================= */
 
 // 1. HTML ELEMENTS
 
@@ -20,7 +20,9 @@ const paperDate = document.getElementById("paper-date");
 
 let lastFocusedStar = null;
 let letterStars = [];
-
+let sharedLetters = [];
+let seed = 28741;
+let resizeTimer = null;
 
 // 2. FICTIONAL SAMPLE LETTERS
 
@@ -52,47 +54,135 @@ const sampleLetters = [
     }
 ];
 
+// 3. FIREBASE CONFIGURATION
 
-// 3. LOAD SHARED LETTERS
+const firebaseConfig = {
+    apiKey: "AIzaSyC7sfGNbNyrAxHJcOfkWLXPRX2XCJzOmAE",
+    authDomain: "midnight-mirage-7f838.firebaseapp.com",
+    projectId: "midnight-mirage-7f838",
+    storageBucket: "midnight-mirage-7f838.firebasestorage.app",
+    messagingSenderId: "837544249785",
+    appId: "1:837544249785:web:9f24808b2b9eff04350e68",
+    measurementId: "G-6BC0GKLSSN"
+};
 
-function loadSharedLetters() {
-    try {
-        const saved = JSON.parse(
-            localStorage.getItem("midnightSharedLetters") || "[]"
+// 4. CONNECT TO FIREBASE
+
+async function connectFirebase() {
+    const { initializeApp, getApps, getApp } =
+        await import(
+            "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"
         );
 
-        if (!Array.isArray(saved)) return [];
+    const {
+        getFirestore,
+        collection,
+        onSnapshot
+    } = await import(
+        "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"
+    );
 
-        return saved
-            .filter(item =>
-                item &&
-                typeof item.text === "string" &&
-                item.text.trim().length > 0
-            )
-            .map(item => ({
-                text: item.text,
-                date: item.date || "",
-                sample: false
-            }));
+    const app = getApps().length
+        ? getApp()
+        : initializeApp(firebaseConfig);
+
+    const db = getFirestore(app);
+
+    return { db, collection, onSnapshot };
+}
+
+// 5. LOAD PUBLIC LETTERS FROM FIREBASE
+
+async function loadSharedLetters() {
+    if (counter) {
+        counter.textContent =
+            "Listening for letters in the night sky ✧";
+    }
+
+    try {
+        const { db, collection, onSnapshot } =
+            await connectFirebase();
+
+        onSnapshot(
+            collection(db, "publicLetters"),
+
+            function (snapshot) {
+                sharedLetters = snapshot.docs
+                    .map(function (doc) {
+                        const data = doc.data();
+
+                        let date = "";
+
+                        if (
+                            data.createdAt &&
+                            typeof data.createdAt.toDate === "function"
+                        ) {
+                            date = data.createdAt
+                                .toDate()
+                                .toISOString();
+                        }
+
+                        return {
+                            id: doc.id,
+                            text: data.text,
+                            date: date,
+                            sample: false
+                        };
+                    })
+
+                    .filter(function (letter) {
+                        return (
+                            typeof letter.text === "string" &&
+                            letter.text.trim().length > 0
+                        );
+                    })
+
+                    .sort(function (a, b) {
+                        return a.id.localeCompare(b.id);
+                    });
+
+                buildSky();
+
+                console.log(
+                    "Firebase letters loaded:",
+                    sharedLetters.length
+                );
+            },
+
+            function (error) {
+                console.error(
+                    "Error reading Firebase letters:",
+                    error
+                );
+
+                if (counter) {
+                    counter.textContent =
+                        "The shared letters are temporarily unavailable ✧";
+                }
+            }
+        );
 
     } catch (error) {
-        console.warn("Could not load letters:", error);
-        return [];
+        console.error(
+            "Firebase connection failed:",
+            error
+        );
+
+        if (counter) {
+            counter.textContent =
+                "Could not connect to the night sky ✧";
+        }
     }
 }
 
-
-// 4. REPEATABLE RANDOM NUMBERS
-
-let seed = 28741;
+// 6. REPEATABLE RANDOM NUMBERS
 
 function random() {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
 }
 
-
-// 5. CREATE STAR HALO
+// 7. CREATE STAR HALO
 
 function createHalo(star, size) {
     const halo = document.createElement("span");
@@ -113,8 +203,7 @@ function createHalo(star, size) {
     star._halo = halo;
 }
 
-
-// 6. CREATE A STAR
+// 8. CREATE A STAR
 
 function makeStar(x, y, size, decorative, letter, index) {
     const star = document.createElement(
@@ -162,7 +251,7 @@ function makeStar(x, y, size, decorative, letter, index) {
             ? "Click to read a sample story"
             : "Click to read an anonymous letter";
 
-        star.addEventListener("click", () => {
+        star.addEventListener("click", function () {
             openLetter(letter, star);
         });
     }
@@ -177,9 +266,7 @@ function makeStar(x, y, size, decorative, letter, index) {
     return star;
 }
 
-
-// 7. CHECK WHETHER A POSITION IS SAFE
-
+// 9. CHECK WHETHER A POSITION IS SAFE
 
 function isSafePosition(x, y, size, decorative = false) {
     const field = starField.getBoundingClientRect();
@@ -211,7 +298,6 @@ function isSafePosition(x, y, size, decorative = false) {
         }
     }
 
-    // Prevent letter stars from overlapping
     if (!decorative) {
         for (const star of letterStars) {
             const rect = star.getBoundingClientRect();
@@ -231,15 +317,7 @@ function isSafePosition(x, y, size, decorative = false) {
     return true;
 }
 
-
-
-// 8. FIND A SAFE POSITION
-
-
-/* =========================================
-   FIND SAFE STAR POSITIONS
-   ========================================= */
-
+// 10. FIND SAFE STAR POSITIONS
 
 function findSafePosition(size, decorative = false) {
     const field = starField.getBoundingClientRect();
@@ -260,19 +338,14 @@ function findSafePosition(size, decorative = false) {
     return null;
 }
 
-
-
-
-
-
-// 10. MOUSE PROXIMITY GLOW
+// 11. MOUSE PROXIMITY GLOW
 
 const glowDistance = 160;
 
 function updateStarGlow(mouseX, mouseY) {
     if (modal && !modal.hidden) return;
 
-    letterStars.forEach(star => {
+    letterStars.forEach(function (star) {
         const rect = star.getBoundingClientRect();
 
         const centerX = rect.left + rect.width / 2;
@@ -306,7 +379,7 @@ function updateStarGlow(mouseX, mouseY) {
 }
 
 function resetStarGlow() {
-    letterStars.forEach(star => {
+    letterStars.forEach(function (star) {
         star.style.setProperty("--proximity", "0");
         star.classList.remove("nearby");
 
@@ -316,18 +389,17 @@ function resetStarGlow() {
     });
 }
 
-document.addEventListener("mousemove", event => {
+document.addEventListener("mousemove", function (event) {
     updateStarGlow(event.clientX, event.clientY);
 });
 
-document.addEventListener("mouseout", event => {
+document.addEventListener("mouseout", function (event) {
     if (event.relatedTarget === null) {
         resetStarGlow();
     }
 });
 
-
-// 11. OPEN LETTER POPUP
+// 12. OPEN LETTER POPUP
 
 function openLetter(letter, star) {
     if (!modal) return;
@@ -370,11 +442,11 @@ function openLetter(letter, star) {
     document.body.style.overflow = "hidden";
 
     resetStarGlow();
+
     closeButton.focus();
 }
 
-
-// 12. CLOSE LETTER POPUP
+// 13. CLOSE LETTER POPUP
 
 function closeLetter() {
     if (!modal || modal.hidden) return;
@@ -398,7 +470,7 @@ if (backdrop) {
     backdrop.addEventListener("click", closeLetter);
 }
 
-document.addEventListener("keydown", event => {
+document.addEventListener("keydown", function (event) {
     if (!modal || modal.hidden) return;
 
     if (event.key === "Escape") {
@@ -411,8 +483,7 @@ document.addEventListener("keydown", event => {
     }
 });
 
-
-// 13. FLOATING SNOW
+// 14. FLOATING SNOW
 
 function createFloatingSnow() {
     const sky = document.querySelector(".sky-world");
@@ -432,7 +503,6 @@ function createFloatingSnow() {
 
     sky.appendChild(snowContainer);
 
-    // Soft, gentle snowfall
     const snowCount = 45;
 
     for (let i = 0; i < snowCount; i++) {
@@ -485,13 +555,7 @@ function createFloatingSnow() {
     }
 }
 
-
-// 14. INITIALIZE AND RESIZE
-
-
-/* =========================================
-   EXPANDING NIGHT SKY
-   ========================================= */
+// 15. BUILD THE NIGHT SKY
 
 function buildSky() {
     if (!starField) return;
@@ -504,22 +568,15 @@ function buildSky() {
     letterStars = [];
     seed = 28741;
 
-    const shared = loadSharedLetters();
-
+    // Real letters from Firebase + fictional samples
     const letters = [
-        ...shared,
+        ...sharedLetters,
         ...sampleLetters
     ];
 
     const totalLetters = letters.length;
 
-    // =====================================
-    // 1. AUTOMATIC PAGE HEIGHT
-    // =====================================
-
-    // Up to 12 letters: normal page height.
-    // Every 8 additional letters adds 350px.
-
+    // Automatically extend the sky as letters increase
     const extraLetters = Math.max(
         0,
         totalLetters - 12
@@ -540,47 +597,23 @@ function buildSky() {
 
     skyWorld.style.minHeight = `${totalHeight}px`;
 
-    // =====================================
-    // 2. UPDATE LETTER COUNTER
-    // =====================================
-
+    // Update counter
     if (counter) {
-        const number = shared.length;
+        const number = sharedLetters.length;
 
         counter.textContent = number === 0
             ? "The sky is waiting for its first shared letter ✧"
             : `${number} ${number === 1 ? "letter has" : "letters have"} reached this sky ✧`;
     }
 
-    // =====================================
-    // 3. DISTRIBUTE INTERACTIVE STARS
-    // =====================================
-
-    letters.forEach((letter, index) => {
-
+    // Create interactive letter stars
+    letters.forEach(function (letter, index) {
         const size = 20 + random() * 18;
 
-        // Divide the sky into vertical sections.
-        // This prevents all stars from clustering
-        // near the top or bottom.
-
-        const totalBands = Math.max(
-            3,
-            Math.ceil(totalLetters / 5)
+        const position = findSafePosition(
+            size,
+            false
         );
-
-        const bandIndex = index % totalBands;
-
-        const bandStart = bandIndex / totalBands;
-        const bandEnd = (bandIndex + 1) / totalBands;
-
-       let position = findSafePosition(size, false);
-
-        // If a section is crowded,
-        // search the rest of the sky.
-        if (!position) {
-            position = findSafePosition(size, false);
-        }
 
         if (!position) {
             console.warn(
@@ -600,17 +633,13 @@ function buildSky() {
         );
     });
 
-    // =====================================
-    // 4. SMALL DECORATIVE STARS
-    // =====================================
-
+    // Create decorative stars
     const decorativeCount = Math.min(
         200,
         90 + extraSections * 18
     );
 
     for (let i = 0; i < decorativeCount; i++) {
-
         const size = 1.2 + random() * 3.2;
 
         const position = findSafePosition(
@@ -631,51 +660,57 @@ function buildSky() {
     }
 }
 
-/* =========================================
-   INITIALIZE THE NIGHT SKY
-   ========================================= */
+// 16. INITIALIZE SKY
 
 function initializeSky() {
     if (!starField) {
-        console.error("Cannot find #sky-stars in sky.html");
+        console.error(
+            "Cannot find #sky-stars in sky.html"
+        );
         return;
     }
 
     buildSky();
     createFloatingSnow();
 
+    // Start listening for real anonymous letters
+    loadSharedLetters();
+
     console.log(
-        "Midnight Mirage initialized:",
-        document.querySelectorAll(".star.letter-star").length,
-        "interactive stars created"
+        "Midnight Mirage night sky initialized"
     );
 }
 
+// 17. RESIZE
 
-let resizeTimer = null;
-
-window.addEventListener("resize", () => {
+window.addEventListener("resize", function () {
     clearTimeout(resizeTimer);
 
-    resizeTimer = setTimeout(() => {
+    resizeTimer = setTimeout(function () {
         buildSky();
     }, 200);
 });
 
-// Wait until layout is ready before placing stars
+// 18. START WHEN PAGE IS READY
+
 if (document.readyState === "loading") {
     document.addEventListener(
         "DOMContentLoaded",
-        () => requestAnimationFrame(initializeSky),
+        function () {
+            requestAnimationFrame(initializeSky);
+        },
         { once: true }
     );
 } else {
     requestAnimationFrame(initializeSky);
 }
 
-// Recalculate after web fonts finish loading
+// 19. RECALCULATE AFTER FONTS LOAD
+
 if (document.fonts) {
-    document.fonts.ready.then(() => {
-        if (starField) buildSky();
+    document.fonts.ready.then(function () {
+        if (starField) {
+            buildSky();
+        }
     });
 }
