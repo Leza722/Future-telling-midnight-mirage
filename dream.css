@@ -1,0 +1,2336 @@
+
+/* =========================================
+   MIDNIGHT MIRAGE - DREAM PAGE
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "DM Sans", sans-serif;
+    background: #26385d;
+}
+
+button,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================
+   PART 1: DREAM WORLD BACKGROUND
+   ========================================= */
+
+.dream-world {
+    position: relative;
+    isolation: isolate;
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 70px 25px 95px;
+    overflow: hidden;
+
+    background-color: #36466f;
+    background-image: url("assets/images/after-hours.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.dream-world::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background: linear-gradient(
+        180deg,
+        rgba(31, 39, 79, 0.26),
+        rgba(75, 62, 112, 0.22) 55%,
+        rgba(43, 39, 78, 0.36)
+    );
+}
+
+
+/* =========================================
+   PART 2: STARS AND SNOWFLAKES
+   ========================================= */
+
+.stars {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+
+    background-image:
+        radial-gradient(
+            2px 2px at 10% 20%,
+            #fff4d7 98%,
+            transparent
+        ),
+        radial-gradient(
+            3px 3px at 35% 40%,
+            #fff 98%,
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 70% 15%,
+            #fff4d7 98%,
+            transparent
+        ),
+        radial-gradient(
+            2px 2px at 85% 65%,
+            #fff 98%,
+            transparent
+        ),
+        radial-gradient(
+            3px 3px at 55% 80%,
+            #fff4d7 98%,
+            transparent
+        );
+
+    background-size: 420px 320px;
+
+    animation: starTwinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 0.8;
+    }
+}
+
+#snow-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#snow-container canvas {
+    display: block;
+}
+
+
+/* =========================================
+   PART 3: PAGE HEADER
+   ========================================= */
+
+.dream-header {
+    position: relative;
+    z-index: 2;
+
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.dream-header h1 {
+    margin: 0 0 18px;
+
+    font-family: "Berkshire Swash", cursive;
+    font-weight: 400;
+    font-size: clamp(55px, 7vw, 105px);
+
+    color: #ffe4ae;
+
+    text-shadow:
+        0 0 10px rgba(255, 228, 174, 0.55),
+        0 0 25px rgba(255, 218, 160, 0.25),
+        3px 4px 2px rgba(45, 45, 85, 0.35);
+}
+
+.dream-header p {
+    margin: 0;
+
+    font-size: clamp(14px, 1.4vw, 19px);
+    letter-spacing: 2px;
+
+    color: #fff2e1;
+}
+
+
+/* =========================================
+   PART 4: TWO CHOICE CARDS
+   ========================================= */
+
+.choice-container {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    gap: 45px;
+
+    width: 100%;
+    max-width: 1000px;
+}
+
+.dream-choice {
+    position: relative;
+
+    flex: 1 1 320px;
+    max-width: 440px;
+    min-height: 340px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 22px;
+    padding: 40px 30px;
+
+    border: 1px solid rgba(255, 240, 220, 0.4);
+    border-radius: 30px;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 15px 40px rgba(31, 37, 83, 0.2),
+        inset 0 0 25px rgba(255, 255, 255, 0.08);
+
+    color: #fff4e5;
+    text-decoration: none;
+    text-align: center;
+    font-family: inherit;
+    cursor: pointer;
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        background 0.4s ease;
+}
+
+.write-choice {
+    background: rgba(45, 75, 125, 0.65);
+}
+
+.explore-choice {
+    background: rgba(100, 65, 125, 0.65);
+}
+
+.dream-choice:hover {
+    transform: translateY(-10px);
+
+    background: rgba(65, 69, 112, 0.72);
+
+    box-shadow:
+        0 20px 55px rgba(31, 37, 83, 0.3),
+        0 0 30px rgba(255, 229, 185, 0.25);
+}
+
+.dream-choice:focus-visible,
+.back-button:focus-visible,
+.close-letter:focus-visible,
+#save-thought:focus-visible {
+    outline: 3px solid #ffe4ae;
+    outline-offset: 5px;
+}
+
+.choice-icon {
+    display: block;
+
+    font-size: 65px;
+    line-height: 1;
+
+    color: #ffe4ae;
+
+    text-shadow:
+        0 0 15px rgba(255, 228, 174, 0.7);
+
+    transition: transform 0.4s ease;
+}
+
+.dream-choice:hover .choice-icon {
+    transform: scale(1.12);
+}
+
+.choice-title {
+    font-family: "Berkshire Swash", cursive;
+    font-size: clamp(27px, 3vw, 38px);
+
+    color: #ffe4ae;
+
+    text-shadow:
+        0 0 10px rgba(255, 228, 174, 0.3);
+}
+
+.choice-description {
+    max-width: 290px;
+
+    font-size: 15px;
+    line-height: 1.8;
+
+    color: #fff4ec;
+}
+
+.choice-action {
+    margin-top: 10px;
+    padding-bottom: 7px;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color: #ffe4ae;
+
+    border-bottom:
+        1px solid rgba(255, 228, 174, 0.5);
+}
+
+
+/* =========================================
+   PART 5: FOOTER AND BACK BUTTON
+   ========================================= */
+
+.dream-message {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 50px;
+
+    font-size: 13px;
+    letter-spacing: 1.5px;
+
+    color: #f7e9ef;
+    text-align: center;
+}
+
+.back-button {
+    position: absolute;
+    z-index: 5;
+
+    bottom: 30px;
+    left: 35px;
+
+    font-family: "Berkshire Swash", cursive;
+    font-size: 24px;
+
+    color: #ffe4ae;
+    text-decoration: none;
+
+    text-shadow:
+        0 0 10px rgba(255, 228, 174, 0.5);
+
+    transition: opacity 0.3s;
+}
+
+.back-button:hover {
+    opacity: 0.75;
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   PART 6: LETTER OVERLAY
+   ========================================= */
+
+.letter-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 28px 18px;
+
+    background: rgba(21, 29, 61, 0.77);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    overflow-y: auto;
+}
+
+.letter-overlay[hidden] {
+    display: none !important;
+}
+
+.close-letter {
+    position: fixed;
+    top: 22px;
+    right: 30px;
+    z-index: 120;
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(44, 44, 78, 0.4);
+
+    color: #ffe4ae;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+.letter-scene {
+    position: relative;
+
+    width: min(100%, 620px);
+    min-height: 560px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    perspective: 1200px;
+}
+
+
+/* =========================================
+   PART 7: ENVELOPE DESIGN
+   ========================================= */
+
+.envelope {
+    position: absolute;
+    z-index: 5;
+
+    width: 320px;
+    height: 210px;
+
+    transform: translateY(55px) scale(0.8);
+    transform-origin: center;
+
+    opacity: 0;
+
+    filter:
+        drop-shadow(
+            0 15px 25px rgba(20, 20, 55, 0.35)
+        );
+}
+
+/* Soft magical glow behind envelope */
+
+.envelope::before {
+    content: "";
+
+    position: absolute;
+    inset: -35px;
+    z-index: -1;
+
+    border-radius: 50%;
+
+    background: radial-gradient(
+        ellipse,
+        rgba(255, 225, 190, 0.55),
+        rgba(245, 175, 215, 0.22) 42%,
+        transparent 75%
+    );
+
+    filter: blur(20px);
+    pointer-events: none;
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 8px;
+    background: #f5d3df;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    background: #f9dfe5;
+
+    clip-path: polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 4;
+
+    width: 100%;
+    height: 65%;
+
+    background: #ffe8ed;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 100%
+    );
+
+    transform-origin: top center;
+    backface-visibility: hidden;
+}
+
+.envelope-seal {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    z-index: 5;
+
+    transform: translate(-50%, -50%);
+
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+    background: #bd80aa;
+
+    color: #fff0d6;
+    font-size: 25px;
+}
+
+
+/* =========================================
+   PART 8: ENVELOPE OPENING ANIMATION
+   ========================================= */
+
+.letter-overlay.opening .envelope {
+    animation:
+        envelopeEntrance 0.9s ease-out both,
+        envelopeExit 0.9s ease-in 1.9s forwards;
+}
+
+.letter-overlay.opening .envelope-flap {
+    animation:
+        flapOpen 1s ease-in-out 0.9s forwards;
+}
+
+.letter-overlay.opening .envelope-seal {
+    animation:
+        sealFade 0.35s ease 0.9s forwards;
+}
+
+@keyframes envelopeEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.7);
+    }
+
+    65% {
+        opacity: 1;
+        transform: translateY(-12px) scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes flapOpen {
+    to {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes sealFade {
+    to {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%) scale(0.5);
+    }
+}
+
+@keyframes envelopeExit {
+    to {
+        opacity: 0;
+
+        transform:
+            translateY(100px) scale(0.7);
+
+        visibility: hidden;
+    }
+}
+
+
+/* =========================================
+   PART 9: VINTAGE LETTER PAPER
+   ========================================= */
+
+.letter-paper {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    padding: 35px 40px;
+
+    border: 1px solid #f7d9d4;
+    border-radius: 4px 12px 7px 9px;
+
+    /* Paper grain + writing lines + color */
+    background:
+        repeating-linear-gradient(
+            35deg,
+            rgba(160, 100, 125, 0.025) 0 1px,
+            transparent 1px 4px
+        ),
+
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 36px,
+            rgba(188, 132, 158, 0.14) 37px,
+            transparent 38px
+        ),
+
+        linear-gradient(
+            135deg,
+            #fff9eb 0%,
+            #fff0e1 45%,
+            #f9dfe1 100%
+        );
+
+    box-shadow:
+        2px 3px 0 rgba(255, 239, 222, 0.8),
+        5px 7px 0 rgba(225, 184, 193, 0.3),
+        0 25px 65px rgba(20, 22, 55, 0.4),
+        inset 0 0 35px rgba(195, 135, 150, 0.12);
+
+    color: #68546f;
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        translateY(110px)
+        scale(0.55)
+        rotate(-4deg);
+
+    transform-origin: center;
+    backface-visibility: hidden;
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   PART 10: LETTER REVEAL ANIMATION
+   ========================================= */
+
+.letter-overlay.opening .letter-paper {
+    animation:
+        paperReveal 1.2s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        1.65s forwards;
+}
+
+@keyframes paperReveal {
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(110px)
+            scale(0.55)
+            rotate(-4deg);
+    }
+
+    55% {
+        opacity: 1;
+
+        transform:
+            translateY(-25px)
+            scale(0.92)
+            rotate(2deg);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1)
+            rotate(0deg);
+
+        pointer-events: auto;
+    }
+}
+
+
+/* =========================================
+   PART 11: LETTER CONTENT
+   ========================================= */
+
+.letter-decoration {
+    position: relative;
+
+    color: #c58db4;
+    letter-spacing: 10px;
+    font-size: 18px;
+
+    animation:
+        decorationGlow 3s ease-in-out
+        infinite alternate;
+}
+
+@keyframes decorationGlow {
+    from {
+        opacity: 0.6;
+        text-shadow: 0 0 4px #e5a8c5;
+    }
+
+    to {
+        opacity: 1;
+        text-shadow: 0 0 16px #e5a8c5;
+    }
+}
+
+.letter-paper h2 {
+    margin: 12px 0;
+
+    font-family: "Berkshire Swash", cursive;
+    font-size: 42px;
+    font-weight: 400;
+
+    color: #a56b97;
+}
+
+.letter-subtitle {
+    color: #987c91;
+    font-size: 14px;
+}
+
+
+/* Writing area */
+
+#thought-input {
+    display: block;
+
+    width: 100%;
+    height: 190px;
+
+    padding: 15px;
+    margin: 20px 0;
+
+    border: none;
+    outline: none;
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #5d506c;
+    font-family: Georgia, serif;
+    font-size: 17px;
+    line-height: 2;
+
+    resize: vertical;
+}
+
+#thought-input::placeholder {
+    color: #b6a0ac;
+}
+
+#thought-input:focus-visible {
+    outline: 2px solid rgba(165, 107, 151, 0.55);
+    outline-offset: 2px;
+}
+
+
+/* Privacy options */
+
+.privacy-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 22px;
+    margin: 20px 0;
+
+    font-size: 14px;
+    color: #725b79;
+}
+
+.privacy-options label {
+    cursor: pointer;
+}
+
+.privacy-options input {
+    accent-color: #ae77a4;
+    margin-right: 7px;
+}
+
+
+/* Save / share button */
+
+#save-thought {
+    padding: 13px 30px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: #aa79ad;
+
+    color: #fff8ed;
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s,
+        background 0.3s;
+}
+
+#save-thought:hover:not(:disabled) {
+    transform: translateY(-3px);
+    background: #94639f;
+}
+
+#save-thought:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.letter-status {
+    min-height: 20px;
+    margin: 14px 0 0;
+
+    font-size: 13px;
+    color: #886a8b;
+}
+
+
+/* =========================================
+   PART 12: PAPER FOLDING SHAPES
+   ========================================= */
+
+/* These elements must be inside
+   .letter-paper in dream.html */
+
+.paper-fold {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+
+    pointer-events: none;
+    opacity: 0;
+
+    background: linear-gradient(
+        135deg,
+        #fff8eb,
+        #f1cdd9
+    );
+
+    backface-visibility: hidden;
+}
+
+.paper-fold-left {
+    clip-path: polygon(
+        0 0,
+        50% 50%,
+        0 100%
+    );
+
+    transform-origin: left center;
+}
+
+.paper-fold-right {
+    clip-path: polygon(
+        100% 0,
+        50% 50%,
+        100% 100%
+    );
+
+    transform-origin: right center;
+}
+
+
+/* Airplane shape inside the paper */
+
+.folded-plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+
+    width: 120px;
+    height: 80px;
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%) scale(0.5);
+
+    pointer-events: none;
+}
+
+.folded-plane svg {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    filter:
+        drop-shadow(
+            0 0 8px rgba(255, 228, 201, 0.6)
+        );
+}
+
+
+/* =========================================
+   PART 13: LETTER-TO-AIRPLANE ANIMATION
+   ========================================= */
+
+/* The same letter element folds and flies */
+
+.letter-overlay.opening.sending .letter-paper,
+.letter-overlay.sending .letter-paper {
+    animation:
+        letterToPlane 3.2s
+        cubic-bezier(0.45, 0, 0.25, 1)
+        both;
+
+    pointer-events: none;
+    overflow: visible;
+}
+
+
+/* Left paper fold */
+
+.letter-overlay.sending .paper-fold-left {
+    animation:
+        foldLeft 0.85s ease-in-out both;
+}
+
+
+/* Right paper fold */
+
+.letter-overlay.sending .paper-fold-right {
+    animation:
+        foldRight 0.85s ease-in-out both;
+}
+
+@keyframes foldLeft {
+    0% {
+        opacity: 0;
+        transform: rotateY(0deg);
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotateY(-72deg);
+    }
+}
+
+@keyframes foldRight {
+    0% {
+        opacity: 0;
+        transform: rotateY(0deg);
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotateY(72deg);
+    }
+}
+
+
+/* Hide writing content while folding */
+
+.letter-overlay.sending
+.letter-paper > :not(.paper-fold):not(.folded-plane) {
+    animation:
+        hideLetterText 0.6s ease forwards;
+}
+
+@keyframes hideLetterText {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* Airplane gradually forms */
+
+.letter-overlay.sending .folded-plane {
+    animation:
+        revealFoldedPlane 3.2s linear both;
+}
+
+@keyframes revealFoldedPlane {
+    0%, 24% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%) scale(0.5);
+    }
+
+    37% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%) scale(3.3);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%) scale(3.3);
+    }
+}
+
+
+/* Entire letter flies along a curved path */
+
+@keyframes letterToPlane {
+    0% {
+        opacity: 1;
+
+        transform:
+            translate(0, 0)
+            scale(1)
+            rotate(0deg);
+
+        clip-path: inset(0 0 0 0);
+    }
+
+    20% {
+        opacity: 1;
+
+        transform:
+            translate(0, 0)
+            scale(0.7)
+            rotate(-4deg);
+
+        clip-path: inset(0 0 0 0);
+    }
+
+    38% {
+        opacity: 1;
+
+        transform:
+            translate(0, 0)
+            scale(0.22)
+            rotate(-12deg);
+
+        clip-path: polygon(
+            50% 8%,
+            100% 52%,
+            50% 90%,
+            0 52%
+        );
+    }
+
+    52% {
+        opacity: 1;
+
+        transform:
+            translate(7vw, 4vh)
+            scale(0.18)
+            rotate(9deg);
+
+        clip-path: polygon(
+            50% 8%,
+            100% 52%,
+            50% 90%,
+            0 52%
+        );
+    }
+
+    74% {
+        opacity: 1;
+
+        transform:
+            translate(27vw, -24vh)
+            scale(0.14)
+            rotate(-22deg);
+
+        clip-path: polygon(
+            50% 8%,
+            100% 52%,
+            50% 90%,
+            0 52%
+        );
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(68vw, -78vh)
+            scale(0.05)
+            rotate(-35deg);
+
+        clip-path: polygon(
+            50% 8%,
+            100% 52%,
+            50% 90%,
+            0 52%
+        );
+    }
+}
+
+
+/* =========================================
+   PART 14: SPARKLE TRAIL
+   ========================================= */
+
+.letter-paper::after {
+    content: "✦ · ✧ · ✦";
+
+    position: absolute;
+    top: 60%;
+    right: 80%;
+    z-index: 11;
+
+    width: 200px;
+
+    font-size: 22px;
+    letter-spacing: 10px;
+    white-space: nowrap;
+
+    color: #ffe9c6;
+
+    text-shadow:
+        0 0 8px #ffe4ae,
+        0 0 18px #f8b9df;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.letter-overlay.sending .letter-paper::after {
+    animation:
+        sparkleTrail 3.2s ease both;
+}
+
+@keyframes sparkleTrail {
+    0%, 35% {
+        opacity: 0;
+    }
+
+    55% {
+        opacity: 0.9;
+    }
+
+    85% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* Hide old independent airplane */
+
+.paper-airplane {
+    display: none !important;
+}
+
+
+/* =========================================
+   PART 15: RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    .dream-world {
+        padding: 65px 20px 100px;
+    }
+
+    .dream-header {
+        margin-bottom: 35px;
+    }
+
+    .dream-header h1 {
+        font-size: clamp(45px, 10vw, 75px);
+    }
+
+    .choice-container {
+        gap: 22px;
+    }
+
+    .dream-choice {
+        flex-basis: 100%;
+        min-height: 260px;
+        padding: 30px 22px;
+        gap: 15px;
+    }
+
+    .choice-icon {
+        font-size: 50px;
+    }
+
+    .choice-title {
+        font-size: 29px;
+    }
+
+    .dream-message {
+        line-height: 1.8;
+    }
+
+    .back-button {
+        left: 20px;
+        bottom: 25px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .letter-paper {
+        padding: 25px 18px;
+    }
+
+    .letter-paper h2 {
+        font-size: 33px;
+    }
+
+    .envelope {
+        width: 260px;
+        height: 170px;
+    }
+
+    .letter-scene {
+        min-height: 540px;
+    }
+
+    .close-letter {
+        right: 14px;
+        top: 12px;
+    }
+}
+
+
+/* =========================================
+   PART 16: REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .stars,
+    .letter-decoration {
+        animation: none;
+    }
+
+    #snow-container {
+        display: none;
+    }
+
+    .dream-choice,
+    .choice-icon,
+    #save-thought {
+        transition: none;
+    }
+
+    .dream-choice:hover,
+    #save-thought:hover {
+        transform: none;
+    }
+
+    .letter-overlay.opening .envelope {
+        display: none;
+    }
+
+    .letter-overlay.opening .letter-paper {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+    }
+
+    .letter-overlay.sending .letter-paper {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .letter-overlay.sending .paper-fold,
+    .letter-overlay.sending .folded-plane,
+    .letter-overlay.sending .letter-paper::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   FIX: REMOVE SQUARE PAPER DURING FLIGHT
+   ========================================= */
+
+/* Keep the paper visible during folding */
+.letter-overlay.sending .letter-paper {
+    animation: letterToPlane 3.2s
+        cubic-bezier(0.45, 0, 0.25, 1)
+        both;
+
+    transform-origin: center center;
+}
+
+/* Remove rectangular paper background
+   after folding is complete */
+
+.letter-overlay.sending .letter-paper {
+    animation-name: letterToPlane, removePaperBackground;
+    animation-duration: 3.2s, 3.2s;
+    animation-timing-function: 
+        cubic-bezier(0.45, 0, 0.25, 1), linear;
+    animation-fill-mode: both, both;
+}
+
+/* Hide the rectangular paper surface */
+@keyframes removePaperBackground {
+    0%, 35% {
+        background: #fff0e1;
+        border-color: #f7d9d4;
+        box-shadow: 0 20px 60px rgba(20, 22, 55, 0.4);
+    }
+
+    38%, 100% {
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* Hide folding layers after airplane forms */
+.letter-overlay.sending .paper-fold {
+    animation-duration: 0.85s;
+    animation-fill-mode: forwards;
+}
+
+.letter-overlay.sending .paper-fold-left,
+.letter-overlay.sending .paper-fold-right {
+    visibility: hidden;
+    animation: none;
+}
+
+/* Keep the actual airplane visible */
+.letter-overlay.sending .folded-plane {
+    z-index: 20;
+}
+
+/* Remove rectangular clipping during flight */
+@keyframes letterToPlane {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0)
+                   scale(1) rotate(0deg);
+    }
+
+    25% {
+        opacity: 1;
+        transform: translate(0, 0)
+                   scale(0.6) rotate(-5deg);
+    }
+
+    38% {
+        opacity: 1;
+        transform: translate(0, 0)
+                   scale(0.22) rotate(-12deg);
+    }
+
+    55% {
+        opacity: 1;
+        transform: translate(8vw, 4vh)
+                   scale(0.2) rotate(10deg);
+    }
+
+    75% {
+        opacity: 1;
+        transform: translate(25vw, -25vh)
+                   scale(0.16) rotate(-25deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(65vw, -75vh)
+                   scale(0.05) rotate(-35deg);
+    }
+}
+
+/* =========================================
+   FINAL FIX: PAPER BECOMES AN AIRPLANE
+   ========================================= */
+
+/* The letter folds, then flies away */
+.letter-overlay.opening.sending .letter-paper,
+.letter-overlay.sending .letter-paper {
+    animation: letterToPlane 3.2s ease-in-out both;
+    overflow: visible;
+    pointer-events: none;
+}
+
+/* Hide rectangular paper surface */
+@keyframes hideRectangle {
+    0%, 32% {
+        opacity: 1;
+    }
+
+    38%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Make the rectangular paper disappear
+   without hiding the airplane inside it */
+
+.letter-overlay.sending .letter-paper {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    filter: none;
+}
+
+/* Use a paper-colored layer while folding */
+.letter-overlay.sending .letter-paper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+
+    background: linear-gradient(
+        135deg,
+        #fff9eb,
+        #fff0e1,
+        #f9dfe1
+    );
+
+    border: 1px solid #f7d9d4;
+    border-radius: 6px;
+
+    animation: hideRectangle 3.2s linear both;
+}
+
+/* Hide folding panels after transformation */
+.letter-overlay.sending .paper-fold-left,
+.letter-overlay.sending .paper-fold-right {
+    animation: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Show only the airplane SVG */
+.letter-overlay.sending .folded-plane {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 30;
+
+    width: 120px;
+    height: 80px;
+
+    animation: revealRealPlane 3.2s linear both;
+}
+
+@keyframes revealRealPlane {
+    0%, 30% {
+        opacity: 0;
+        transform:
+            translate(-50%, -50%) scale(0.5);
+    }
+
+    38%, 100% {
+        opacity: 1;
+        transform:
+            translate(-50%, -50%) scale(3.3);
+    }
+}
+
+.folded-plane svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* ==========================================
+   MIDNIGHT MIRAGE — VINTAGE DREAM TICKETS
+   ========================================== */
+
+.choice-container {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 38px;
+    width: min(100%, 1120px);
+    margin: 48px auto 60px;
+    padding: 0 24px;
+}
+
+/* Ticket base */
+.choice-container .dream-ticket {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    flex: 0 1 460px;
+    width: 460px;
+    max-width: 100%;
+    min-height: 225px;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    border: 1px solid rgba(255, 224, 180, 0.75);
+    border-radius: 16px;
+
+    color: #fff1db;
+    text-decoration: none;
+    text-align: center;
+    font-family: "DM Sans", sans-serif;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    background: rgba(83, 86, 153, 0.88);
+
+    box-shadow:
+        0 10px 32px rgba(39, 42, 100, 0.22),
+        inset 0 0 24px rgba(255, 223, 194, 0.06);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transform: rotate(-3.0deg);
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        filter 0.4s ease;
+}
+
+.choice-container .explore-choice.dream-ticket {
+    background: rgba(111, 75, 143, 0.88);
+    transform: rotate(3.0deg);
+}
+
+/* Paper-like glow */
+.dream-ticket::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background:
+        repeating-linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.025) 0px,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px,
+            transparent 7px
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 229, 195, 0.14),
+            transparent 50%,
+            rgba(255, 180, 213, 0.09)
+        );
+}
+
+/* Main section */
+.ticket-main {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    min-width: 0;
+    padding: 20px 24px;
+}
+
+/* Small ticket serial number */
+.ticket-topline,
+.ticket-bottomline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    gap: 12px;
+
+    color: #ffe1b4;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.6px;
+}
+
+.ticket-topline {
+    margin-bottom: 14px;
+}
+
+.ticket-bottomline {
+    margin-top: 18px;
+}
+
+/* Icon */
+.ticket-icon {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #ffe1a6;
+    font-size: 37px;
+    line-height: 1;
+
+    text-shadow: 0 0 14px rgba(255, 220, 157, 0.55);
+}
+
+/* Ticket title */
+.dream-ticket .choice-title {
+    display: block;
+    margin: 0;
+
+    color: #ffe3ad;
+    font-family: "Berkshire Swash", Georgia, serif;
+    font-size: clamp(23px, 2.3vw, 32px);
+    line-height: 1.3;
+    font-weight: normal;
+
+    text-shadow: 0 0 12px rgba(255, 216, 164, 0.28);
+}
+
+/* Subtitle */
+.dream-ticket .choice-description {
+    display: block;
+    margin: 8px 0 0;
+    padding: 0;
+
+    color: #fff0ed;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Perforated ticket stub */
+.ticket-stub {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+
+    flex: 0 0 78px;
+    padding: 14px 8px;
+
+    border-left: 2px dashed rgba(255, 229, 196, 0.65);
+
+    color: #ffe3b4;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+
+    writing-mode: vertical-rl;
+}
+
+/* Small notches at the perforation */
+.ticket-stub::before,
+.ticket-stub::after {
+    content: "";
+    position: absolute;
+    left: -11px;
+
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+
+    background: #658bd1;
+    border: 1px solid rgba(255, 224, 180, 0.55);
+}
+
+.ticket-stub::before {
+    top: -11px;
+}
+
+.ticket-stub::after {
+    bottom: -11px;
+}
+
+.ticket-stub-star {
+    font-size: 20px;
+}
+
+/* Hover animation */
+.choice-container .write-choice.dream-ticket:hover {
+    transform: translateY(-10px) rotate(-0.5deg) scale(1.025);
+}
+
+.choice-container .explore-choice.dream-ticket:hover {
+    transform: translateY(-10px) rotate(0.5deg) scale(1.025);
+}
+
+.choice-container .dream-ticket:hover {
+    box-shadow:
+        0 18px 42px rgba(42, 39, 105, 0.3),
+        0 0 22px rgba(255, 210, 180, 0.28);
+
+    filter: brightness(1.08);
+}
+
+.choice-container .dream-ticket:focus-visible {
+    outline: 3px solid #ffe3ad;
+    outline-offset: 5px;
+}
+
+/* Hide any old card decorations */
+.dream-ticket .choice-action {
+    display: none;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+    .choice-container {
+        gap: 22px;
+        margin: 30px auto 50px;
+        padding: 0 18px;
+    }
+
+    .choice-container .dream-ticket {
+        flex-basis: 100%;
+        width: 100%;
+        min-height: 195px;
+    }
+
+    .ticket-main {
+        padding: 16px 18px;
+    }
+
+    .ticket-stub {
+        flex-basis: 58px;
+    }
+
+    .dream-ticket .choice-title {
+        font-size: 24px;
+    }
+
+    .ticket-topline,
+    .ticket-bottomline {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .choice-container .dream-ticket {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* ==========================================
+   TWO TICKETS SIDE BY SIDE
+   ========================================== */
+
+.choice-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 30px;
+
+    width: 95%;
+    max-width: 1100px;
+
+    margin: 45px auto 60px;
+    padding: 0 15px;
+}
+
+/* Both tickets share the available space */
+.choice-container .dream-ticket {
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+    max-width: 480px;
+}
+
+/* Keep ticket content readable */
+.ticket-main {
+    min-width: 0;
+}
+
+/* On smaller screens, stack vertically */
+@media (max-width: 700px) {
+    .choice-container {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    .choice-container .dream-ticket {
+        flex: none;
+        width: 100%;
+        max-width: 480px;
+    }
+}
+
+/* ==========================================
+   LARGER VINTAGE DREAM TICKETS
+   ========================================== */
+
+.choice-container {
+    width: 40%;
+    max-width: 1250px;
+    gap: 35px;
+    margin: 45px auto 60px;
+}
+
+/* Make both tickets larger */
+.choice-container .dream-ticket {
+    flex: 1 1 0;
+    width: 0;
+    max-width: 480px;
+    min-height: 200px;
+}
+
+/* More space inside the tickets */
+.ticket-main {
+    padding: 28px 32px;
+}
+
+/* Larger ticket titles */
+.dream-ticket .choice-title {
+    font-size: clamp(27px, 2.6vw, 37px);
+}
+
+/* Larger icons */
+.ticket-icon {
+    font-size: 45px;
+    margin-bottom: 12px;
+}
+
+/* Larger descriptions */
+.dream-ticket .choice-description {
+    font-size: 14px;
+    margin-top: 12px;
+}
+
+/* Wider ticket stub */
+.ticket-stub {
+    flex-basis: 90px;
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+    .choice-container {
+        width: 100%;
+        flex-direction: column;
+        gap: 22px;
+        padding: 0 18px;
+    }
+
+    .choice-container .dream-ticket {
+        flex: none;
+        width: 100%;
+        max-width: 520px;
+        min-height: 230px;
+    }
+
+    .ticket-main {
+        padding: 20px;
+    }
+
+    .dream-ticket .choice-title {
+        font-size: 26px;
+    }
+
+    .ticket-icon {
+        font-size: 36px;
+    }
+
+    .ticket-stub {
+        flex-basis: 65px;
+    }
+}
+
+/* ==========================================
+   FINAL FIX: EQUAL SIZE + SLIGHTLY TILTED
+   ========================================== */
+
+/* Keep both tickets side by side */
+.choice-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    justify-content: center;
+
+    gap: 38px;
+
+    width: 100%;
+    max-width: 1150px;
+
+    margin: 45px auto 60px;
+    padding: 0 20px;
+}
+
+/* Both tickets have exactly the same size */
+.choice-container .dream-ticket,
+.choice-container .explore-choice.dream-ticket {
+    box-sizing: border-box;
+
+    flex: none;
+
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+
+    height: 270px;
+    min-height: 0px;
+    max-height: 500px;
+
+    margin: 0;
+    padding: 0;
+}
+
+/* Left ticket: tilt slightly left */
+.choice-container .write-choice.dream-ticket {
+    transform: rotate(-3deg);
+}
+
+/* Right ticket: tilt slightly right */
+.choice-container .explore-choice.dream-ticket {
+    transform: rotate(3deg);
+}
+
+/* Keep the hover animation */
+.choice-container .write-choice.dream-ticket:hover {
+    transform: translateY(-10px) rotate(-1.5deg) scale(1.025);
+}
+
+.choice-container .explore-choice.dream-ticket:hover {
+    transform: translateY(-10px) rotate(1.5deg) scale(1.025);
+}
+
+/* Mobile layout */
+@media (max-width: 700px) {
+    .choice-container {
+        grid-template-columns: 1fr;
+        gap: 100px;
+        width: 80%;
+        padding: 0 18px;
+    }
+
+    .choice-container .dream-ticket,
+    .choice-container .explore-choice.dream-ticket {
+        width: 50%;
+        height: 500px;
+        min-height: 0px;
+        max-height: 600px;
+    }
+}
+
+/* ==========================================
+   PRIVATE LETTER — SEAL YOUR SECRET
+   ========================================== */
+
+.private-seal-scene[hidden] {
+    display: none !important;
+}
+
+.private-seal-scene {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    pointer-events: none;
+}
+
+.private-seal-envelope {
+    position: relative;
+
+    width: 290px;
+    height: 190px;
+
+    filter: drop-shadow(
+        0 15px 25px rgba(35, 26, 72, 0.3)
+    );
+
+    opacity: 0;
+    transform: translateY(60px) scale(.7);
+}
+
+/* Back of envelope */
+.private-seal-back {
+    position: absolute;
+    inset: 0;
+
+    background: #e7b9d4;
+    border-radius: 9px;
+}
+
+/* Paper entering envelope */
+.private-seal-paper {
+    position: absolute;
+
+    left: 12%;
+    top: -75px;
+
+    width: 76%;
+    height: 150px;
+
+    background: linear-gradient(
+        135deg,
+        #fff9ee,
+        #f9dfe7
+    );
+
+    border-radius: 5px;
+    z-index: 2;
+
+    box-shadow: 0 0 15px rgba(255, 230, 195, .3);
+}
+
+/* Front of envelope */
+.private-seal-front {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    background: linear-gradient(
+        145deg,
+        #ffe6ec,
+        #e7b4d1
+    );
+
+    clip-path: polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+
+    border-radius: 8px;
+}
+
+/* Envelope flap */
+.private-seal-flap {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+
+    background: #ffedf0;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 58%
+    );
+
+    transform-origin: top center;
+    transform: rotateX(180deg);
+}
+
+/* Moon wax seal */
+.private-seal-stamp {
+    position: absolute;
+
+    top: 43%;
+    left: 50%;
+
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #b97eaa;
+    color: #ffe4ad;
+
+    font-size: 30px;
+
+    z-index: 5;
+
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.3);
+}
+
+/* ==========================================
+   ANIMATION TIMELINE
+   ========================================== */
+
+.private-seal-scene.playing .private-seal-envelope {
+    animation: secretEnvelopeAppear 1s ease-out both;
+}
+
+.private-seal-scene.playing .private-seal-paper {
+    animation: secretPaperEnter 1.2s ease-in-out 1s both;
+}
+
+.private-seal-scene.playing .private-seal-flap {
+    animation: secretFlapClose .8s ease-in-out 2s both;
+}
+
+.private-seal-scene.playing .private-seal-stamp {
+    animation: secretStampAppear .8s ease-out 2.7s both;
+}
+
+@keyframes secretEnvelopeAppear {
+    from {
+        opacity: 0;
+        transform: translateY(60px) scale(.7);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes secretPaperEnter {
+    0% {
+        transform: translateY(-45px) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(100px) scale(.75);
+        opacity: 1;
+    }
+}
+
+@keyframes secretFlapClose {
+    from {
+        transform: rotateX(180deg);
+    }
+
+    to {
+        transform: rotateX(0);
+    }
+}
+
+@keyframes secretStampAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(.3);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+
+        box-shadow:
+            0 0 20px rgba(255, 224, 160, .9),
+            0 0 45px rgba(255, 195, 220, .6);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+
+        box-shadow:
+            0 0 15px rgba(255, 224, 160, .5);
+    }
+}
+
+/* ==========================================
+   FINAL MESSAGE
+   ========================================== */
+
+.private-seal-message {
+    margin-top: 35px;
+
+    opacity: 0;
+    transform: translateY(20px);
+
+    color: #ffe6bd;
+}
+
+.private-seal-scene.playing .private-seal-message {
+    animation: secretMessageAppear 1s ease 3.3s both;
+}
+
+@keyframes secretMessageAppear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.private-seal-message h2 {
+    font-family: "Berkshire Swash", Georgia, serif;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: normal;
+
+    color: #ffe2ab;
+
+    text-shadow: 0 0 18px rgba(255, 218, 160, .35);
+}
+
+.private-seal-message p {
+    font-size: 16px;
+    color: #fff0e4;
+}
+
+.private-seal-message > span {
+    display: block;
+    margin-top: 12px;
+
+    font-size: 12px;
+    color: #f3c9e5;
+}
+
+/* Buttons */
+.private-seal-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.private-seal-actions button,
+.private-seal-actions a {
+    padding: 12px 20px;
+
+    border: 1px solid rgba(255, 227, 181, .65);
+    border-radius: 30px;
+
+    background: rgba(122, 94, 164, .65);
+    color: #ffe4b3;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+.private-seal-actions button:hover,
+.private-seal-actions a:hover {
+    transform: translateY(-3px);
+    background: rgba(156, 111, 181, .8);
+}
+
+/* Allow buttons to be clicked after animation */
+.private-seal-scene.finished {
+    pointer-events: auto;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .private-seal-envelope {
+        width: 240px;
+        height: 160px;
+    }
+
+    .private-seal-message {
+        padding: 0 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .private-seal-scene.playing .private-seal-envelope,
+    .private-seal-scene.playing .private-seal-paper,
+    .private-seal-scene.playing .private-seal-flap,
+    .private-seal-scene.playing .private-seal-stamp,
+    .private-seal-scene.playing .private-seal-message {
+        animation-duration: .01ms;
+        animation-delay: 0ms;
+    }
+}
+
+/* ==========================================
+   PRIVATE LETTER — PAPER FOLDING
+   ========================================== */
+
+/* Make the original letter gently fold away */
+.letter-scene.private-folding .letter-paper {
+    animation: privatePaperFold .7s ease-in forwards !important;
+    pointer-events: none;
+}
+
+@keyframes privatePaperFold {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-15px) scale(.85, .7);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(50px) scale(.35, .15);
+    }
+}
+
+/* Make sure the private animation appears above the paper */
+.private-seal-scene {
+    z-index: 40;
+}
+
+/* Prevent the original envelope from appearing again */
+.letter-scene.private-folding .envelope {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .letter-scene.private-folding .letter-paper {
+        animation: none !important;
+        opacity: 0;
+    }
+}
