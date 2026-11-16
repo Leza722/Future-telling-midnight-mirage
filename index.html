@@ -4,11 +4,15 @@
 
 <head>
     
+
 <script>
-  if (window === window.top) {
-    window.location.replace("home.html");
+  if (window.self === window.top) {
+    window.location.replace(
+      new URL("./home.html", window.location.href)
+    );
   }
 </script>
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
