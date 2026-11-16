@@ -1,18 +1,17 @@
 
 /* =========================================
    MIDNIGHT MIRAGE - DREAM PAGE
-   ========================================= */
-
+   Firebase version
+========================================= */
 
 /* =========================================
    PART 1: SOFT FALLING SNOWFLAKES
-   ========================================= */
+========================================= */
 
 let snowflakes = [];
 
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
-
     canvas.parent("snow-container");
 
     for (let i = 0; i < 90; i++) {
@@ -30,11 +29,7 @@ function setup() {
 function draw() {
     clear();
 
-    if (
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches
-    ) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         return;
     }
 
@@ -42,7 +37,6 @@ function draw() {
 
     for (let flake of snowflakes) {
         fill(255, 245, 225, flake.opacity);
-
         circle(flake.x, flake.y, flake.size);
 
         flake.y += flake.speed;
@@ -53,13 +47,8 @@ function draw() {
             flake.x = random(width);
         }
 
-        if (flake.x > width) {
-            flake.x = 0;
-        }
-
-        if (flake.x < 0) {
-            flake.x = width;
-        }
+        if (flake.x > width) flake.x = 0;
+        if (flake.x < 0) flake.x = width;
     }
 }
 
@@ -67,21 +56,15 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 
-
 /* =========================================
    PART 2: GET HTML ELEMENTS
-   ========================================= */
+========================================= */
 
 const writeButton = document.getElementById("write-button");
-
 const letterOverlay = document.getElementById("writing-space");
-
 const closeButton = document.getElementById("close-letter");
-
 const thoughtInput = document.getElementById("thought-input");
-
 const saveButton = document.getElementById("save-thought");
-
 const letterStatus = document.getElementById("letter-status");
 
 const privacyOptions = document.querySelectorAll(
@@ -96,10 +79,9 @@ const publicOption = document.querySelector(
     'input[name="privacy"][value="public"]'
 );
 
-
 /* =========================================
    PART 3: PRIVATE SEAL ELEMENTS
-   ========================================= */
+========================================= */
 
 const privateSealScene = document.getElementById(
     "private-seal-scene"
@@ -113,35 +95,29 @@ const writeAnotherButton = document.getElementById(
     "write-another-letter"
 );
 
-
 /* =========================================
    PART 4: ANIMATION SETTINGS
-   ========================================= */
+========================================= */
 
 const OPEN_ANIMATION_TIME = 2900;
-
 const SEND_ANIMATION_TIME = 3400;
-
 const SEAL_ANIMATION_TIME = 4300;
 
 let isSending = false;
-
 let isSealing = false;
-
 let isLetterOpen = false;
+let isUploading = false;
 
 let openTimer = null;
-
 let sealTimer = null;
 
-let reducedMotion = window.matchMedia(
+const reducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
 ).matches;
 
-
 /* =========================================
    PART 5: RESET PRIVATE SEAL
-   ========================================= */
+========================================= */
 
 function resetPrivateSeal() {
     clearTimeout(sealTimer);
@@ -153,11 +129,11 @@ function resetPrivateSeal() {
             "playing",
             "finished"
         );
-
         privateSealScene.hidden = true;
     }
 
     if (letterScene) {
+        letterScene.classList.remove("private-folding");
         letterScene.style.visibility = "";
         letterScene.style.pointerEvents = "";
     }
@@ -165,26 +141,20 @@ function resetPrivateSeal() {
     closeButton.disabled = false;
 }
 
-
 /* =========================================
    PART 6: OPEN THE LETTER
-   ========================================= */
+========================================= */
 
 function openLetter() {
-    if (isSending || isSealing || isLetterOpen) {
+    if (isSending || isSealing || isLetterOpen || isUploading) {
         return;
     }
 
     isLetterOpen = true;
-
     resetPrivateSeal();
 
     letterOverlay.hidden = false;
-
-    letterOverlay.classList.remove(
-        "opening",
-        "sending"
-    );
+    letterOverlay.classList.remove("opening", "sending");
 
     void letterOverlay.offsetWidth;
 
@@ -192,11 +162,10 @@ function openLetter() {
     saveButton.disabled = true;
 
     privateOption.checked = true;
-
     saveButton.textContent = "Keep My Letter ✦";
-
     letterStatus.textContent = "";
 
+    document.body.style.overflow = "";
     document.body.style.overflow = "hidden";
 
     letterOverlay.classList.add("opening");
@@ -204,14 +173,9 @@ function openLetter() {
     clearTimeout(openTimer);
 
     openTimer = setTimeout(function () {
-        if (
-            isLetterOpen &&
-            !isSending &&
-            !isSealing
-        ) {
+        if (isLetterOpen && !isSending && !isSealing) {
             thoughtInput.disabled = false;
             saveButton.disabled = false;
-
             thoughtInput.focus();
         }
     }, reducedMotion ? 50 : OPEN_ANIMATION_TIME);
@@ -219,13 +183,12 @@ function openLetter() {
 
 writeButton.addEventListener("click", openLetter);
 
-
 /* =========================================
    PART 7: CLOSE THE LETTER
-   ========================================= */
+========================================= */
 
 function closeLetter() {
-    if (isSending || isSealing) {
+    if (isSending || isSealing || isUploading) {
         return;
     }
 
@@ -233,7 +196,6 @@ function closeLetter() {
     clearTimeout(sealTimer);
 
     isLetterOpen = false;
-
     letterOverlay.hidden = true;
 
     letterOverlay.classList.remove(
@@ -244,30 +206,26 @@ function closeLetter() {
     resetPrivateSeal();
 
     document.body.style.overflow = "";
-
     writeButton.focus();
 }
 
-closeButton.addEventListener(
-    "click",
-    closeLetter
-);
+closeButton.addEventListener("click", closeLetter);
 
 document.addEventListener("keydown", function (event) {
     if (
         event.key === "Escape" &&
         isLetterOpen &&
         !isSending &&
-        !isSealing
+        !isSealing &&
+        !isUploading
     ) {
         closeLetter();
     }
 });
 
-
 /* =========================================
    PART 8: PRIVACY OPTIONS
-   ========================================= */
+========================================= */
 
 privacyOptions.forEach(function (option) {
     option.addEventListener("change", function () {
@@ -283,10 +241,9 @@ privacyOptions.forEach(function (option) {
     });
 });
 
-
 /* =========================================
    PART 9: SAVE PRIVATE LETTER
-   ========================================= */
+========================================= */
 
 function savePrivateLetter(thought) {
     try {
@@ -311,7 +268,6 @@ function savePrivateLetter(thought) {
         );
 
         thoughtInput.value = "";
-
         return true;
 
     } catch (error) {
@@ -327,52 +283,72 @@ function savePrivateLetter(thought) {
     }
 }
 
+/* =========================================
+   PART 10: FIREBASE CONFIGURATION
+========================================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC7sfGNbNyrAxHJcOfkWLXPRX2XCJzOmAE",
+    authDomain: "midnight-mirage-7f838.firebaseapp.com",
+    projectId: "midnight-mirage-7f838",
+    storageBucket: "midnight-mirage-7f838.firebasestorage.app",
+    messagingSenderId: "837544249785",
+    appId: "1:837544249785:web:9f24808b2b9eff04350e68",
+    measurementId: "G-6BC0GKLSSN"
+};
 
 /* =========================================
-   PART 10: SAVE SHARED LETTER
-   ========================================= */
+   PART 11: SAVE SHARED LETTER TO FIREBASE
+========================================= */
 
-function saveSharedLetter(thought) {
+async function saveSharedLetter(thought) {
     try {
-        const storedLetters = JSON.parse(
-            localStorage.getItem(
-                "midnightSharedLetters"
-            ) || "[]"
+        const { initializeApp, getApps, getApp } =
+            await import(
+                "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"
+            );
+
+        const {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp
+        } = await import(
+            "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js"
         );
 
-        if (!Array.isArray(storedLetters)) {
-            throw new Error("Invalid saved data");
-        }
+        const app = getApps().length
+            ? getApp()
+            : initializeApp(firebaseConfig);
 
-        storedLetters.push({
-            text: thought,
-            date: new Date().toISOString()
-        });
+        const db = getFirestore(app);
 
-        localStorage.setItem(
-            "midnightSharedLetters",
-            JSON.stringify(storedLetters)
+        await addDoc(
+            collection(db, "publicLetters"),
+            {
+                text: thought,
+                createdAt: serverTimestamp()
+            }
         );
 
         return true;
 
     } catch (error) {
         console.error(
-            "Unable to save shared letter:",
+            "Firebase upload failed:",
             error
         );
 
         letterStatus.textContent =
-            "Could not save your letter. Please try again.";
+            "Could not send your letter. Please check your connection and try again.";
 
         return false;
     }
 }
 
-
 /* =========================================
-   PART 11: PRIVATE LETTER SEAL ANIMATION
-   ========================================= */
+   PART 12: PRIVATE LETTER SEAL ANIMATION
+========================================= */
 
 function sealPrivateLetter() {
     if (isSealing || isSending) {
@@ -382,7 +358,6 @@ function sealPrivateLetter() {
     if (!privateSealScene || !letterScene) {
         letterStatus.textContent =
             "Your letter was saved privately in this browser ✦";
-
         return;
     }
 
@@ -394,7 +369,6 @@ function sealPrivateLetter() {
     saveButton.disabled = true;
     closeButton.disabled = true;
 
-    // Show the sealing scene.
     privateSealScene.hidden = false;
 
     privateSealScene.classList.remove(
@@ -402,8 +376,6 @@ function sealPrivateLetter() {
         "finished"
     );
 
-    // Keep the original paper visible briefly.
-    // Then let the new envelope take over.
     letterScene.classList.add("private-folding");
 
     void privateSealScene.offsetWidth;
@@ -417,12 +389,10 @@ function sealPrivateLetter() {
         }
     }, reducedMotion ? 0 : 650);
 
-    // Reveal the final buttons after animation.
     sealTimer = setTimeout(function () {
         privateSealScene.classList.add("finished");
 
         isSealing = false;
-
         closeButton.disabled = false;
 
         if (writeAnotherButton) {
@@ -431,24 +401,19 @@ function sealPrivateLetter() {
     }, reducedMotion ? 100 : SEAL_ANIMATION_TIME);
 }
 
-
 /* =========================================
-   PART 12: WRITE ANOTHER LETTER
-   ========================================= */
+   PART 13: WRITE ANOTHER LETTER
+========================================= */
 
 function writeAnotherLetter() {
-    if (isSending || isSealing) {
+    if (isSending || isSealing || isUploading) {
         return;
     }
 
     clearTimeout(openTimer);
     clearTimeout(sealTimer);
 
-    // Hide the completed sealing animation.
     resetPrivateSeal();
-
-    // Reset the original letter.
-    letterScene.classList.remove("private-folding");
 
     letterOverlay.classList.remove(
         "opening",
@@ -456,11 +421,9 @@ function writeAnotherLetter() {
     );
 
     thoughtInput.value = "";
-
     privateOption.checked = true;
 
     saveButton.textContent = "Keep My Letter ✦";
-
     letterStatus.textContent = "";
 
     thoughtInput.disabled = true;
@@ -468,18 +431,12 @@ function writeAnotherLetter() {
 
     void letterOverlay.offsetWidth;
 
-    // Replay the original envelope opening animation.
     letterOverlay.classList.add("opening");
 
     openTimer = setTimeout(function () {
-        if (
-            isLetterOpen &&
-            !isSending &&
-            !isSealing
-        ) {
+        if (isLetterOpen && !isSending && !isSealing) {
             thoughtInput.disabled = false;
             saveButton.disabled = false;
-
             thoughtInput.focus();
         }
     }, reducedMotion ? 50 : OPEN_ANIMATION_TIME);
@@ -492,10 +449,9 @@ if (writeAnotherButton) {
     );
 }
 
-
 /* =========================================
-   PART 13: PAPER AIRPLANE TRANSITION
-   ========================================= */
+   PART 14: PAPER AIRPLANE TRANSITION
+========================================= */
 
 function sendLetterToSky() {
     if (isSending || isSealing) {
@@ -512,7 +468,7 @@ function sendLetterToSky() {
 
     void letterOverlay.offsetWidth;
 
-    // Keep the existing CSS paper airplane animation.
+    // Keep the original paper airplane animation.
     letterOverlay.classList.add("sending");
 
     setTimeout(function () {
@@ -520,15 +476,15 @@ function sendLetterToSky() {
     }, reducedMotion ? 300 : SEND_ANIMATION_TIME);
 }
 
-
 /* =========================================
-   PART 14: SAVE OR SHARE BUTTON
-   ========================================= */
+   PART 15: SAVE OR SHARE BUTTON
+========================================= */
 
-saveButton.addEventListener("click", function () {
+saveButton.addEventListener("click", async function () {
     if (
         isSending ||
         isSealing ||
+        isUploading ||
         saveButton.disabled
     ) {
         return;
@@ -541,7 +497,6 @@ saveButton.addEventListener("click", function () {
             "Write a little something first ✦";
 
         thoughtInput.focus();
-
         return;
     }
 
@@ -553,33 +508,57 @@ saveButton.addEventListener("click", function () {
             return;
         }
 
-        // Start the new private sealing animation.
         sealPrivateLetter();
-
         return;
     }
 
     // OPTION 2: SHARE ANONYMOUSLY
     if (publicOption.checked) {
+        if (thought.length > 1000) {
+            letterStatus.textContent =
+                "Please keep your letter within 1000 characters.";
+            return;
+        }
+
         const confirmed = window.confirm(
             "Release this thought into the night sky?\n\n" +
             "Your name will not appear.\n\n" +
-            "For now, this demo stores your letter " +
-            "only in this browser. Other visitors " +
-            "cannot see it yet."
+            "Your letter will be publicly visible to everyone visiting the night sky."
         );
 
         if (!confirmed) {
             return;
         }
 
-        const saved = saveSharedLetter(thought);
+        isUploading = true;
+        saveButton.disabled = true;
+        closeButton.disabled = true;
+
+        privacyOptions.forEach(function (option) {
+            option.disabled = true;
+        });
+
+        letterStatus.textContent =
+            "Sending your letter to the night sky...";
+
+        const saved = await saveSharedLetter(thought);
+
+        isUploading = false;
 
         if (!saved) {
+            saveButton.disabled = false;
+            closeButton.disabled = false;
+
+            privacyOptions.forEach(function (option) {
+                option.disabled = false;
+            });
+
             return;
         }
 
-        // Original paper airplane animation.
+        letterStatus.textContent =
+            "Your letter has reached the night sky ✦";
+
         sendLetterToSky();
     }
 });
